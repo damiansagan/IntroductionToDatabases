@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 interface MenuDAO {
-
-    public List<PozycjaMenuDTO> readAllPozycjaMenu() throws SQLException;
-    public List<PozycjaMenuDTO> readAllPotrawa();
+    List<PozycjaMenuDTO> readAllPozycjaMenu() throws SQLException;
+    List<PozycjaMenuDTO> readAllPotrawa();
 }

@@ -7,8 +7,8 @@ public class Main {
 
     public static void main(String[] args) throws SQLException {
         MenuDAO menuDAO = new SQLMenuDAO();
-        List<PozycjaMenuDTO> pozycjeMenu = null;
-        pozycjeMenu = menuDAO.readAllPozycjaMenu();
+        List<PozycjaMenuDTO> pozycjeMenu = menuDAO.readAllPozycjaMenu();
+
         StringBuilder stringBuilder = new StringBuilder();
         for(PozycjaMenuDTO p : pozycjeMenu)
             stringBuilder.append(p.toString()).append('\n');
