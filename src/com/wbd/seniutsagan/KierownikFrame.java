@@ -23,6 +23,7 @@ public class KierownikFrame extends JFrame {
             public void run() {
                 Messages.setLocale(Locale.getDefault());
                 KierownikFrame panelWindow = new KierownikFrame();
+                panelWindow.setLayout(new BorderLayout());
                 panelWindow.initialize();
             }
         });
@@ -42,16 +43,30 @@ public class KierownikFrame extends JFrame {
         condition = true;
         listeners = new Listeners(this);
 
-      // MakeKierownikButtonsPanel kierownikButtons = new MakeKierownikButtonsPanel(this);
-       // this.setLayout(new BorderLayout());
-       // this.add(kierownikButtons, BorderLayout.CENTER);
-        JComponent newContentPane = new MakeKierownikButtonsPanel(this);
-      //  content panes must be opaque
-        newContentPane.setOpaque(true);
-        this.setContentPane(newContentPane);
+        JPanel container = new JPanel();
+        container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
 
-        //Display the window.
+        MakeKierownikButtonsPanel kierownikButtons = new MakeKierownikButtonsPanel(this);
+//        this.setLayout(new BorderLayout());
+        this.add(kierownikButtons, BorderLayout.WEST);
+        Cafe_Panel cafe_panel = new Cafe_Panel();
+        this.add(cafe_panel, BorderLayout.CENTER);
+
+
+
+       // JComponent newContentPane = new MakeKierownikButtonsPanel(this);
+      //  content panes must be opaque
+        //newContentPane.setOpaque(true);
+
+       // this.setContentPane(newContentPane);
+      //  JComponent newContentPane1 = new Cafe_Panel();
+        //  content panes must be opaque
+       // newContentPane1.setOpaque(true);
+       // this.setContentPane(newContentPane1);
         this.pack();
+        //Display the window.
+       // this.add(container);
+
 
 
         setVisible(true);

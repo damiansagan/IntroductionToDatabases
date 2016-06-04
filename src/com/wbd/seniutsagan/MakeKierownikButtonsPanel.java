@@ -22,13 +22,13 @@ public class MakeKierownikButtonsPanel extends JPanel{
          */
         public MakeKierownikButtonsPanel(KierownikFrame frame)
         {
-     //       super();
-            super(new BorderLayout());
+                super();
+           // super(new BorderLayout());
             listeners=frame.listeners;
 //        this.setBackground(Color.WHITE);
 
-            this.setMinimumSize(new Dimension(120, 30));
-            this.setPreferredSize(new Dimension(180, 80));
+           // this.setMinimumSize(new Dimension(120, 30));
+          //  this.setPreferredSize(new Dimension(180, 80));
 
             //In initialization code:
             //Create the radio buttons.
@@ -73,7 +73,7 @@ public class MakeKierownikButtonsPanel extends JPanel{
             radioPanel.add(menuButton);
 
 
-            add(radioPanel, BorderLayout.LINE_START);
+            add(radioPanel, BorderLayout.WEST);
            // dodac cos jeszcze, co chce, zeby bylo wyswietlane
             setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 
