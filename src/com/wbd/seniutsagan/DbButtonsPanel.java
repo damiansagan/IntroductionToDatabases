@@ -28,24 +28,39 @@ public class DbButtonsPanel extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         //this.setBorder(BorderFactory.createTitledBorder("cos"));
 
-        BoxLayout layout = new BoxLayout(this, BoxLayout.X_AXIS);
+        BoxLayout layout = new BoxLayout(this, BoxLayout.LINE_AXIS);
         this.setLayout(layout);
+        this.add(Box.createRigidArea(new Dimension(350,5)));
+
+        // this.setLayout(new FlowLayout(FlowLayout.RIGHT));
+      //  this.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
 
         dodajButton = new JButton("DODAJ");
-        dodajButton.setAlignmentY(1550);
+        //dodajButton.setPreferredSize(new Dimension(40, 80));
+       // dodajButton.setAlignmentX(450);
+       // dodajButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
         this.add(dodajButton);
 
+
         usunButton = new JButton("USUŃ");
-        usunButton.setAlignmentY(1750);
+       // usunButton.setPreferredSize(new Dimension(40, 80));
+       // usunButton.setAlignmentX(650);
+       // usunButton.setAlignmentY(Component.RIGHT_ALIGNMENT);
         this.add(usunButton);
 
+
         zmodyfikujButton = new JButton("ZMODYFIKUJ");
-        zmodyfikujButton.setAlignmentY(1850);
+       // zmodyfikujButton.setPreferredSize(new Dimension(40, 80));
+       // zmodyfikujButton.setAlignmentX(850);
+       // zmodyfikujButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
         this.add(zmodyfikujButton);
 
+
         infoButton = new JButton("INFO");
-        infoButton.setAlignmentY(1950);
+       // infoButton.setPreferredSize(new Dimension(40, 80));
+       // infoButton.setAlignmentX(950);
+       // infoButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
         this.add(infoButton);
 
 
