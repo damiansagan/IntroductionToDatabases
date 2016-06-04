@@ -1,28 +1,24 @@
 package com.wbd.seniutsagan;
 
 
-import java.util.List;
-
 class PozycjaMenuDTO {
 
     private Integer id;
     private String rodzajOferty;
     private String nazwa;
     private String cena;
-    private Integer kawiarniaId;
-
-    private List<PotrawaDTO> potrawy;
+    private String potrawy;
 
     PozycjaMenuDTO(Integer id) {
         this.id = id;
     }
 
-    public PozycjaMenuDTO(Integer id, String rodzajOferty, String nazwa, String cena, Integer kawiarniaId) {
+    PozycjaMenuDTO(Integer id, String rodzajOferty, String nazwa, String cena, String potrawy) {
         this.id = id;
         this.rodzajOferty = rodzajOferty;
         this.nazwa = nazwa;
         this.cena = cena;
-        this.kawiarniaId = kawiarniaId;
+        this.potrawy = potrawy;
     }
 
     @Override
@@ -32,6 +28,7 @@ class PozycjaMenuDTO {
                 ", rodzajOferty='" + rodzajOferty + '\'' +
                 ", nazwa='" + nazwa + '\'' +
                 ", cena='" + cena + '\'' +
+                ", potrawy='" + potrawy + '\'' +
                 '}';
     }
 
@@ -51,13 +48,7 @@ class PozycjaMenuDTO {
         return cena;
     }
 
-    public Integer getKawiarniaId() {
-        return kawiarniaId;
-    }
-
-    public List<PotrawaDTO> getPotrawy() {
-        return potrawy;
-    }
+    public String getPotrawy() { return potrawy; }
 
     public void setRodzajOferty(String rodzajOferty) {
         this.rodzajOferty = rodzajOferty;
@@ -71,11 +62,5 @@ class PozycjaMenuDTO {
         this.cena = cena;
     }
 
-    public void setKawiarniaId(Integer kawiarniaId) {
-        this.kawiarniaId = kawiarniaId;
-    }
-
-    public void setPotrawy(List<PotrawaDTO> potrawy) {
-        this.potrawy = potrawy;
-    }
+    public void setPotrawy(String potrawy) { this.potrawy = potrawy; }
 }

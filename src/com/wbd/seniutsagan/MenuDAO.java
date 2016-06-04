@@ -5,5 +5,4 @@ import java.util.List;
 
 interface MenuDAO {
     List<PozycjaMenuDTO> readAllPozycjaMenu();
-    List<PotrawaDTO> readAllPotrawa();
 }
