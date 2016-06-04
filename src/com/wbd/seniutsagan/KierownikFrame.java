@@ -42,13 +42,13 @@ public class KierownikFrame extends JFrame {
         condition = true;
         listeners = new Listeners(this);
 
-       MakeKierownikButtonsPanel kierownikButtons = new MakeKierownikButtonsPanel(this);
+      // MakeKierownikButtonsPanel kierownikButtons = new MakeKierownikButtonsPanel(this);
        // this.setLayout(new BorderLayout());
-        this.add(kierownikButtons, BorderLayout.CENTER);
-      //  JComponent newContentPane = new MakeKierownikButtonsPanel(this);
-        //content panes must be opaque
-      //  newContentPane.setOpaque(true);
-        //this.setContentPane(newContentPane);
+       // this.add(kierownikButtons, BorderLayout.CENTER);
+        JComponent newContentPane = new MakeKierownikButtonsPanel(this);
+      //  content panes must be opaque
+        newContentPane.setOpaque(true);
+        this.setContentPane(newContentPane);
 
         //Display the window.
         this.pack();

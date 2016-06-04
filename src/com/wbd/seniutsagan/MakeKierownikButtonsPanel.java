@@ -10,7 +10,7 @@ import java.awt.event.KeyEvent;
 public class MakeKierownikButtonsPanel extends JPanel{
 
 
-    private Listeners listeners;
+        private Listeners listeners;
         static String pracownicyString = "Pracownicy";
         static String produktyString = "Produkty";
         static String wynagrodzeniaString = "Wynagrodzenia";
@@ -22,8 +22,8 @@ public class MakeKierownikButtonsPanel extends JPanel{
          */
         public MakeKierownikButtonsPanel(KierownikFrame frame)
         {
-            super();
-//            super(new BorderLayout());
+     //       super();
+            super(new BorderLayout());
             listeners=frame.listeners;
 //        this.setBackground(Color.WHITE);
 
@@ -57,12 +57,25 @@ public class MakeKierownikButtonsPanel extends JPanel{
             group.add(wynagrodzeniaButton);
             group.add(menuButton);
 
-
             //Register a listener for the radio buttons.
             pracownicyButton.addActionListener(listeners.pracownicyListener);
             wynagrodzeniaButton.addActionListener(listeners.wynagrodzeniaListener);
             produktyButton.addActionListener(listeners.produktyListener);
             menuButton.addActionListener(listeners.menuListener);
+
+
+
+            //Put the radio buttons in a column in a panel.
+            JPanel radioPanel = new JPanel(new GridLayout(0, 1));
+            radioPanel.add(pracownicyButton);
+            radioPanel.add(wynagrodzeniaButton);
+            radioPanel.add(produktyButton);
+            radioPanel.add(menuButton);
+
+
+            add(radioPanel, BorderLayout.LINE_START);
+           // dodac cos jeszcze, co chce, zeby bylo wyswietlane
+            setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 
 
         }

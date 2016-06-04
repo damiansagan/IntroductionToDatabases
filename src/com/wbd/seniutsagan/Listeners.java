@@ -14,7 +14,15 @@ public class Listeners {
     public ProduktyListener produktyListener;
     public MenuListener menuListener;
 
+    // mozna zrobic analogiczny konstruktor dla innych frames
     public Listeners(KierownikFrame kierownikFrame) {
+        frame = kierownikFrame;
+
+        pracownicyListener = new PracownicyListener();
+        wynagrodzeniaListener = new WynagrodzeniaListener();
+        produktyListener = new ProduktyListener();
+        menuListener = new MenuListener();
+
     }
 }
 
