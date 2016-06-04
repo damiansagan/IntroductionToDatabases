@@ -12,7 +12,7 @@ public class Cafe_Panel extends JPanel {
 
     public Cafe_Panel() {
         //       super();
-        super(new BorderLayout());
+        super();
 
         this.setBackground(Color.GREEN);
 

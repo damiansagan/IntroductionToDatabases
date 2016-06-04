@@ -52,6 +52,8 @@ public class KierownikFrame extends JFrame {
         Cafe_Panel cafe_panel = new Cafe_Panel();
         this.add(cafe_panel, BorderLayout.CENTER);
 
+        DbButtonsPanel dbButtonsPanel = new DbButtonsPanel(this);
+        this.add(dbButtonsPanel,BorderLayout.NORTH);
 
 
        // JComponent newContentPane = new MakeKierownikButtonsPanel(this);
