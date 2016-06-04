@@ -35,7 +35,7 @@ class SQLMenuDAO implements MenuDAO {
     }
 
     @Override
-    public List<PozycjaMenuDTO> readAllPotrawa() {
+    public List<PotrawaDTO> readAllPotrawa() {
         return null;
     }
 
