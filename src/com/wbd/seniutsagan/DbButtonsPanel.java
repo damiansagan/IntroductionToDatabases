@@ -37,30 +37,18 @@ public class DbButtonsPanel extends JPanel {
 
 
         dodajButton = new JButton("DODAJ");
-        //dodajButton.setPreferredSize(new Dimension(40, 80));
-       // dodajButton.setAlignmentX(450);
-       // dodajButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
         this.add(dodajButton);
 
 
         usunButton = new JButton("USUŃ");
-       // usunButton.setPreferredSize(new Dimension(40, 80));
-       // usunButton.setAlignmentX(650);
-       // usunButton.setAlignmentY(Component.RIGHT_ALIGNMENT);
         this.add(usunButton);
 
 
         zmodyfikujButton = new JButton("ZMODYFIKUJ");
-       // zmodyfikujButton.setPreferredSize(new Dimension(40, 80));
-       // zmodyfikujButton.setAlignmentX(850);
-       // zmodyfikujButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
         this.add(zmodyfikujButton);
 
 
         infoButton = new JButton("INFO");
-       // infoButton.setPreferredSize(new Dimension(40, 80));
-       // infoButton.setAlignmentX(950);
-       // infoButton.setAlignmentX(Component.RIGHT_ALIGNMENT);
         this.add(infoButton);
 
 

@@ -55,22 +55,9 @@ public class KierownikFrame extends JFrame {
         DbButtonsPanel dbButtonsPanel = new DbButtonsPanel(this);
         this.add(dbButtonsPanel,BorderLayout.NORTH);
 
-
-       // JComponent newContentPane = new MakeKierownikButtonsPanel(this);
-      //  content panes must be opaque
-        //newContentPane.setOpaque(true);
-
-       // this.setContentPane(newContentPane);
-      //  JComponent newContentPane1 = new Cafe_Panel();
-        //  content panes must be opaque
-       // newContentPane1.setOpaque(true);
-       // this.setContentPane(newContentPane1);
         this.pack();
-        //Display the window.
-       // this.add(container);
 
-
-
+        
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
