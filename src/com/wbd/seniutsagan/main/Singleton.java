@@ -1,9 +1,13 @@
-package com.wbd.seniutsagan;
+package com.wbd.seniutsagan.main;
 
+
+import com.wbd.seniutsagan.dao.SQLMenuDAO;
+import com.wbd.seniutsagan.dto.PozycjaMenuDTO;
+import com.wbd.seniutsagan.service.MenuService;
 
 import java.util.List;
 
-class Singleton {
+public class Singleton {
  private static final Singleton INSTANCE = new Singleton();
 
     private MenuService menuService;
@@ -13,16 +17,20 @@ class Singleton {
         menuService = new MenuService(new SQLMenuDAO());
     }
 
-    static List<PozycjaMenuDTO> updateMenu(){
+    public static List<PozycjaMenuDTO> updateMenu(){
         Singleton s = Singleton.getInstance();
         return s.pozycjaMenuDTOList = s.menuService.getPozycjeMenu();
     }
 
-    static List<PozycjaMenuDTO> getPozycjeMenu() {
+    public static List<PozycjaMenuDTO> getPozycjeMenu() {
         return Singleton.getInstance().pozycjaMenuDTOList;
     }
 
-    private static Singleton getInstance() {
+    public static Singleton getInstance() {
         return INSTANCE;
+    }
+
+    public static MenuService getMenuService() {
+        return Singleton.getInstance().menuService;
     }
 }

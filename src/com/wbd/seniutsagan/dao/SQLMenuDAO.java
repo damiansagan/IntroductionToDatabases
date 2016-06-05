@@ -1,10 +1,12 @@
-package com.wbd.seniutsagan;
+package com.wbd.seniutsagan.dao;
+
+import com.wbd.seniutsagan.dto.PozycjaMenuDTO;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-class SQLMenuDAO implements MenuDAO {
+public class SQLMenuDAO implements MenuDAO {
     private static final String DB_CONNECTION = "jdbc:oracle:thin:@ora3.elka.pw.edu.pl:1521:ora3inf";
     private static final String DB_USER = "DSAGAN";
     private static final String DB_PASSWORD = "dsagan";

@@ -1,7 +1,7 @@
-package com.wbd.seniutsagan;
+package com.wbd.seniutsagan.dto;
 
 
-class PozycjaMenuDTO {
+public class PozycjaMenuDTO {
 
     private Integer id;
     private String rodzajOferty;
@@ -9,11 +9,11 @@ class PozycjaMenuDTO {
     private String cena;
     private String potrawy;
 
-    PozycjaMenuDTO(Integer id) {
+    public PozycjaMenuDTO(Integer id) {
         this.id = id;
     }
 
-    PozycjaMenuDTO(Integer id, String rodzajOferty, String nazwa, String cena, String potrawy) {
+    public PozycjaMenuDTO(Integer id, String rodzajOferty, String nazwa, String cena, String potrawy) {
         this.id = id;
         this.rodzajOferty = rodzajOferty;
         this.nazwa = nazwa;
