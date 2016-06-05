@@ -9,8 +9,22 @@ public class CustomerPanel extends JPanel{
 
     public CustomerPanel() {
         createUpperPanel();
+        createMenuOrderPanel();
+        createReservationPanel();
+        createCustomerPanel();
         setLayout(new BorderLayout());
         add(upperPanel,BorderLayout.NORTH);
+        add(menuOrderPanel,BorderLayout.CENTER);
+    }
+
+    private void createMenuOrderPanel() {
+        menuOrderPanel=new MenuOrderPanel();
+    }
+
+    private void createReservationPanel() {
+    }
+
+    private void createCustomerPanel() {
     }
 
     private void createUpperPanel() {
@@ -29,8 +43,7 @@ public class CustomerPanel extends JPanel{
         accountButton.addActionListener((e) -> {});
     }
 
-    private void createMenuOrderPanel() {
-    }
+
 
 
 }
