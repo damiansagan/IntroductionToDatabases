@@ -41,25 +41,25 @@ public class KierownikFrame extends JFrame {
 
         language="polish";
         condition = true;
-        listeners = new Listeners(this);
+
 
         JPanel container = new JPanel();
         container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
 
-        MakeKierownikButtonsPanel kierownikButtons = new MakeKierownikButtonsPanel(this);
-//        this.setLayout(new BorderLayout());
-        this.add(kierownikButtons, BorderLayout.WEST);
         Cafe_Panel cafe_panel = new Cafe_Panel();
         this.add(cafe_panel, BorderLayout.CENTER);
 
         DbButtonsPanel dbButtonsPanel = new DbButtonsPanel(this);
         this.add(dbButtonsPanel,BorderLayout.NORTH);
-
-        this.pack();
-
         
+        listeners = new Listeners(this, cafe_panel);
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+
+        MakeKierownikButtonsPanel kierownikButtons = new MakeKierownikButtonsPanel(this );
+//        this.setLayout(new BorderLayout());
+        this.add(kierownikButtons, BorderLayout.WEST);
+        this.pack();
 
         WindowListener exitListener = new WindowAdapter() {
 

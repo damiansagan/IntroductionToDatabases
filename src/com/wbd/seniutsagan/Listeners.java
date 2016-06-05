@@ -1,5 +1,6 @@
 package com.wbd.seniutsagan;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -21,10 +22,10 @@ public class Listeners {
     public InfoListener infoListener;
 
     // mozna zrobic analogiczny konstruktor dla innych frames
-    public Listeners(KierownikFrame kierownikFrame) {
+    public Listeners(KierownikFrame kierownikFrame, JPanel tablePanel) {
         frame = kierownikFrame;
 
-        pracownicyListener = new PracownicyListener();
+        pracownicyListener = new PracownicyListener(tablePanel);
         wynagrodzeniaListener = new WynagrodzeniaListener();
         produktyListener = new ProduktyListener();
         menuListener = new MenuListener();
@@ -35,7 +36,7 @@ public class Listeners {
 
 
 class PracownicyListener implements ActionListener {
-    PracownicyListener() {
+    PracownicyListener(JPanel listPanel) {
         super();
     }
 
@@ -44,6 +45,7 @@ class PracownicyListener implements ActionListener {
         PracownicyDAO pracownicyDAO = new SQLPracownikDAO();
         List<PracownikDTO> pracownicyList = null;
         try {
+            // zwraca result w postaci ArrayList
             pracownicyList = pracownicyDAO.readAllPracownik();
         } catch (SQLException e) {
             e.printStackTrace();
