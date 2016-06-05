@@ -47,11 +47,15 @@ public class KierownikFrame extends JFrame {
         container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
 
         Cafe_Panel cafe_panel = new Cafe_Panel();
-        this.add(cafe_panel, BorderLayout.CENTER);
+        cafe_panel.setName("first");
+        // wykomentowana z początkowym panelem
 
+
+        //Cafe_Panel cafe_panel = null;
+        this.add(cafe_panel, BorderLayout.CENTER);
         DbButtonsPanel dbButtonsPanel = new DbButtonsPanel(this);
         this.add(dbButtonsPanel,BorderLayout.NORTH);
-        
+
         listeners = new Listeners(this, cafe_panel);
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
