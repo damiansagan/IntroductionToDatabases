@@ -8,7 +8,6 @@ import static javax.swing.SwingUtilities.invokeAndWait;
 public class Main {
 
     public static void main(String[] args) throws SQLException, InvocationTargetException, InterruptedException {
-        Singleton.updateMenu();
         invokeAndWait(ApplicationGUI::new);
     }
 }

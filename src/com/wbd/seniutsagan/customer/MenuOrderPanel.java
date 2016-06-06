@@ -1,14 +1,14 @@
 package com.wbd.seniutsagan.customer;
 
 import com.wbd.seniutsagan.dto.PozycjaMenuDTO;
-import com.wbd.seniutsagan.dto.ZamowienieDTO;
 import com.wbd.seniutsagan.main.Singleton;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 class MenuOrderPanel extends JPanel {
 
@@ -16,7 +16,6 @@ class MenuOrderPanel extends JPanel {
     private Map<String,List<PozycjaMenuDTO>> pozycjeMenuRodzajami;
     private JScrollPane scrollPane;
     private JPanel scrollPanel;
-    private ZamowienieDTO zamowienieDTO;
 
     MenuOrderPanel() {
         preparePozycjeMenu();
@@ -46,9 +45,9 @@ class MenuOrderPanel extends JPanel {
     }
 
     private void preparePozycjeMenu() {
-        pozycjeMenu = Singleton.getPozycjeMenu();
-        pozycjeMenuRodzajami = pozycjeMenu.stream().collect(Collectors.groupingBy(PozycjaMenuDTO::getRodzajOferty));
-        /*pozycjeMenuRodzajami = new LinkedHashMap<>();
+        pozycjeMenu = Singleton.updateMenu();
+        //pozycjeMenuRodzajami = pozycjeMenu.stream().collect(Collectors.groupingBy(PozycjaMenuDTO::getRodzajOferty));
+        pozycjeMenuRodzajami = new LinkedHashMap<>();
         pozycjeMenu.forEach(p -> {
             List<PozycjaMenuDTO> rodzajList = pozycjeMenuRodzajami.get(p.getRodzajOferty());
             if(rodzajList==null){
@@ -59,7 +58,7 @@ class MenuOrderPanel extends JPanel {
             else{
                 rodzajList.add(p);
             }
-        });*/
+        });
     }
 
 
