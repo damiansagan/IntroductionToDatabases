@@ -3,15 +3,17 @@ package com.wbd.seniutsagan.main;
 import com.wbd.seniutsagan.customer.CustomerPanel;
 
 import javax.swing.*;
+import java.awt.*;
 
 class ApplicationGUI {
     private JFrame frame;
+    private static final int WINDOW_HEIGHT = 600;
+    private static final int WINDOW_WIDTH = 1000;
 
     ApplicationGUI() {
         createFrame();
-        frame.add(new CustomerPanel());
+        frame.getContentPane().add(new CustomerPanel());
         // show GUI
-        frame.pack();
         frame.setVisible(true);
     }
 
@@ -21,8 +23,12 @@ class ApplicationGUI {
         frame.setTitle("ApplicationGUI");
         // it will center frame
         frame.setLocationRelativeTo(null);
+        //frame.pack();
+        Dimension dimensions = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setBounds(dimensions.width / 2 - WINDOW_WIDTH / 2, dimensions.height
+                / 2 - WINDOW_HEIGHT / 2, WINDOW_WIDTH, WINDOW_HEIGHT);
         // it will cause to exit application when cross is clicked
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
 }

@@ -6,14 +6,14 @@ public class PozycjaMenuDTO {
     private Integer id;
     private String rodzajOferty;
     private String nazwa;
-    private String cena;
+    private Double cena;
     private String potrawy;
 
     public PozycjaMenuDTO(Integer id) {
         this.id = id;
     }
 
-    public PozycjaMenuDTO(Integer id, String rodzajOferty, String nazwa, String cena, String potrawy) {
+    public PozycjaMenuDTO(Integer id, String rodzajOferty, String nazwa, Double cena, String potrawy) {
         this.id = id;
         this.rodzajOferty = rodzajOferty;
         this.nazwa = nazwa;
@@ -44,7 +44,7 @@ public class PozycjaMenuDTO {
         return nazwa;
     }
 
-    public String getCena() {
+    public Double getCena() {
         return cena;
     }
 
@@ -58,9 +58,7 @@ public class PozycjaMenuDTO {
         this.nazwa = nazwa;
     }
 
-    public void setCena(String cena) {
-        this.cena = cena;
-    }
+    public void setCena(Double cena) { this.cena = cena; }
 
     public void setPotrawy(String potrawy) { this.potrawy = potrawy; }
 }
