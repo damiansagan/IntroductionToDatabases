@@ -15,10 +15,12 @@ public class Singleton {
     private MenuService menuService;
     private ZamowienieService zamowienieService;
     private List<PozycjaMenuDTO> pozycjaMenuDTOList;
+    private Integer loggedInCustomerID;
 
     private Singleton() {
         menuService = new MenuService(new SQLMenuDAO());
         zamowienieService = new ZamowienieService(new SQLZamowienieDAO());
+        loggedInCustomerID=1; //FOR TESTS ONLY!!!
     }
 
     public static List<PozycjaMenuDTO> updateMenu(){
@@ -40,5 +42,13 @@ public class Singleton {
 
     public static ZamowienieService getZamowienieService() {
         return Singleton.getInstance().zamowienieService;
+    }
+
+    public static Integer getLoggedInCustomerID() {
+        return Singleton.getInstance().loggedInCustomerID;
+    }
+
+    public static void setLoggedInCustomerID(Integer customerID) {
+        Singleton.getInstance().loggedInCustomerID=customerID;
     }
 }

@@ -26,6 +26,7 @@ public class SQLMenuDAO implements MenuDAO {
                 PozycjaMenuDTO position = new PozycjaMenuDTO(rs.getInt("ID_POZYCJA_MENU"), rs.getString("RODZAJ_OFERTY"), rs.getString("NAZWA"),rs.getDouble("CENA"),rs.getString("POTRAWY"));
                 result.add(position);
             }
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
