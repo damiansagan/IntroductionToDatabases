@@ -23,7 +23,7 @@ public class KierownikFrame extends JFrame {
             public void run() {
                 Messages.setLocale(Locale.getDefault());
                 KierownikFrame panelWindow = new KierownikFrame();
-                panelWindow.setLayout(new BorderLayout());
+                //panelWindow.setLayout(new BorderLayout());
                 panelWindow.initialize();
             }
         });
@@ -42,27 +42,52 @@ public class KierownikFrame extends JFrame {
         language="polish";
         condition = true;
 
-
+        // container Panel
         JPanel container = new JPanel();
-        container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
-
+      //  CardLayout cl = new CardLayout();
+        // cafe_panel
         Cafe_Panel cafe_panel = new Cafe_Panel();
-        cafe_panel.setName("first");
+        cafe_panel.setName("main kierownik panel");
+        // main db operations buttons
+        DbButtonsPanel dbButtonsPanel = new DbButtonsPanel(this);
+        listeners = new Listeners(this);
+        setVisible(true);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+
+        // buttons panel on left
+        MakeKierownikButtonsPanel kierownikButtons = new MakeKierownikButtonsPanel(this );
+
+
+
+
+
+       // container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
+
+
         // wykomentowana z początkowym panelem
 
 
         //Cafe_Panel cafe_panel = null;
-        this.add(cafe_panel, BorderLayout.CENTER);
-        DbButtonsPanel dbButtonsPanel = new DbButtonsPanel(this);
-        this.add(dbButtonsPanel,BorderLayout.NORTH);
 
-        listeners = new Listeners(this, cafe_panel);
-        setVisible(true);
-        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
-        MakeKierownikButtonsPanel kierownikButtons = new MakeKierownikButtonsPanel(this );
+       // container.add(cafe_panel,BorderLayout.CENTER);
+        getContentPane().add(cafe_panel,BorderLayout.CENTER);
+      //  this.add(cafe_panel, BorderLayout.CENTER);
+
+
+
+       // container.add(dbButtonsPanel,BorderLayout.NORTH);
+
+        getContentPane().add(dbButtonsPanel,BorderLayout.NORTH);
+        //this.add(dbButtonsPanel,BorderLayout.NORTH);
+
+
 //        this.setLayout(new BorderLayout());
-        this.add(kierownikButtons, BorderLayout.WEST);
+
+
+       // container.add(kierownikButtons,BorderLayout.WEST);
+        getContentPane().add(kierownikButtons,BorderLayout.WEST);
+        //this.add(kierownikButtons, BorderLayout.WEST);
         this.pack();
 
         WindowListener exitListener = new WindowAdapter() {

@@ -1,14 +1,14 @@
-package com.wbd.seniutsagan;
+package com.wbd.seniutsagan.service;
+
+import com.wbd.seniutsagan.KierownikFrame;
 
 import javax.swing.*;
 import java.awt.*;
 
 /**
- * Created by monika03 on 04.06.16.
+ * Created by monika03 on 07.06.16.
  */
-public class DbButtonsPanel extends JPanel {
-
-    private Listeners listeners;
+public class dbButtons extends JPanel {
     private JButton dodajButton;
     private JButton usunButton;
     private JButton zmodyfikujButton;
@@ -16,24 +16,25 @@ public class DbButtonsPanel extends JPanel {
 
 
 
-    public DbButtonsPanel(KierownikFrame frame) {
+    public dbButtons() {
         //       super();
-       // super();
+        super();
         this.setBackground(Color.BLUE);
-       // this.setMinimumSize(new Dimension(120, 30));
-       // this.setPreferredSize(new Dimension(180, 80));
+        // this.setMinimumSize(new Dimension(120, 30));
+        // this.setPreferredSize(new Dimension(180, 80));
 
-        listeners=frame.listeners;
+      //  listeners=frame.listeners;
 
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         //this.setBorder(BorderFactory.createTitledBorder("cos"));
+
 
         BoxLayout layout = new BoxLayout(this, BoxLayout.LINE_AXIS);
         this.setLayout(layout);
         this.add(Box.createRigidArea(new Dimension(350,5)));
 
         // this.setLayout(new FlowLayout(FlowLayout.RIGHT));
-      //  this.setAlignmentX(Component.RIGHT_ALIGNMENT);
+        //  this.setAlignmentX(Component.RIGHT_ALIGNMENT);
 
 
         dodajButton = new JButton("DODAJ");
@@ -59,6 +60,5 @@ public class DbButtonsPanel extends JPanel {
 
 
     }
-
 
 }

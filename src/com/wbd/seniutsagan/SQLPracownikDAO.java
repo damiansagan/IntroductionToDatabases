@@ -17,12 +17,67 @@ public class SQLPracownikDAO implements PracownicyDAO {
         return DriverManager.getConnection(DB_CONNECTION, DB_USER, DB_PASSWORD);
     }
 
+
+    public ResultSet query(String query){
+        ResultSet results;
+        try{
+            // the following assumes that you have a method to return
+            // the current db Connection
+            Statement statement = getDBConnection().createStatement();
+            results = statement.executeQuery(query);
+        } catch(Exception e) {
+            // NEVER ignore Exceptions. At the very least I usually
+            // wrap them in an unchecked Exception, viz:
+            throw new RuntimeException(e);
+        }
+        return results;
+    }
+
+
+    public static String[] headings(ResultSet resultSet){
+        String[] col;
+        try {
+            ResultSetMetaData metadata = resultSet.getMetaData();
+            col = new String[metadata.getColumnCount()];
+            int numcols = metadata.getColumnCount();
+            for(int count = 0; count < numcols; count++) {
+                col[count] = metadata.getColumnLabel(count + 1);
+            }
+        } catch(Exception e) {
+            throw new RuntimeException(e);
+        }
+        return col;
+    }
+
+// s
+
+//    public static ArrayList<PracownikDTO> getData(ResultSet resultSet){
+//        // List for simplicity.
+//        ArrayList<PracownikDTO> data = new ArrayList<PracownikDTO>();
+//        try {
+//            int numcols = resultSet.getMetaData().getColumnCount();
+//
+//            while (resultSet.next()) {
+//                PracownikDTO pracownik ;
+//                for (int i = 0; i < rowData.length; ++i) {
+//                    rowData[i] = resultSet.getObject(i+1);
+//                }
+//                data.add(rowData);
+//            }
+//        } catch(Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//        return data.toArray();
+//    }
+
+
     @Override
     public List<PracownikDTO> readAllPracownik() throws SQLException {
         List<PracownikDTO> result = null;
-        try (Connection connection = getDBConnection();
-             Statement stmt = connection.createStatement()
-        ) {
+       // try (Connection connection = getDBConnection();
+        //     Statement stmt = connection.createStatement()
+        //) {
+
             result = new ArrayList<>();
 //            ResultSet rs = stmt.executeQuery("select * from Pracownicy");
 //            while (rs.next()) {
@@ -38,7 +93,7 @@ public class SQLPracownikDAO implements PracownicyDAO {
 //
 //                result.add(pracownik);
 //            }
-            ResultSet rs = stmt.executeQuery("select ID_PRACOWNIK, STANOWISKO, IMIE, NAZWISKO from Pracownicy order by ID_PRACOWNIK");
+            ResultSet rs = query("select ID_PRACOWNIK, STANOWISKO, IMIE, NAZWISKO from Pracownicy order by ID_PRACOWNIK");
             while (rs.next()){
                 PracownikDTO pracownik = new PracownikDTO(rs.getInt("ID_PRACOWNIK"));
                 pracownik.setStanowisko(rs.getString("STANOWISKO"));
@@ -57,9 +112,10 @@ public class SQLPracownikDAO implements PracownicyDAO {
 //
 //                result.add(pracownik);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+       // } catch (SQLException e) {
+        //    e.printStackTrace();
+       // }
+
         return result;
 
     }
