@@ -25,9 +25,11 @@ class MenuOrderPanel extends JPanel {
         createScrollPane();
         add(scrollPane, BorderLayout.CENTER);
         JButton orderButton = new JButton("Zarezerwuj");
-        orderButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         orderButton.addActionListener(e -> processOrder());
+        JButton resetButton = new JButton("Wyczyść");
+        resetButton.addActionListener(e -> recreateScrollPane());
         JPanel orderPanel = new JPanel();
+        orderPanel.add(resetButton);
         orderPanel.add(orderButton);
         add(orderPanel, BorderLayout.PAGE_END);
     }
