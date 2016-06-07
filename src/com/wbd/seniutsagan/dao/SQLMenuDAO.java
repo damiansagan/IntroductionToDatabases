@@ -21,7 +21,13 @@ public class SQLMenuDAO implements MenuDAO {
               Statement stmt = connection.createStatement()
         ) {
             result = new ArrayList<>();
-            ResultSet rs = stmt.executeQuery("select id_pozycja_menu, rodzaj_oferty, nazwa, cena, potrawy from pozycje_menu join (SELECT id_pozycja_menu, LISTAGG(nazwa, ', ') WITHIN GROUP (ORDER BY nazwa) AS potrawy FROM  potrawy GROUP BY id_pozycja_menu) USING (id_pozycja_menu) ORDER BY rodzaj_oferty");
+            ResultSet rs = stmt.executeQuery("SELECT id_pozycja_menu, rodzaj_oferty, nazwa, cena, potrawy FROM pozycje_menu" +
+                    "                    LEFT OUTER JOIN (SELECT" +
+                    "                            id_pozycja_menu," +
+                    "                            LISTAGG(nazwa, ', ') WITHIN GROUP (ORDER BY nazwa) AS potrawy" +
+                    "                            FROM  potrawy GROUP BY id_pozycja_menu" +
+                    "                    )" +
+                    "                    USING (id_pozycja_menu) ORDER BY nazwa");
             while (rs.next()) {
                 PozycjaMenuDTO position = new PozycjaMenuDTO(rs.getInt("ID_POZYCJA_MENU"), rs.getString("RODZAJ_OFERTY"), rs.getString("NAZWA"),rs.getDouble("CENA"),rs.getString("POTRAWY"));
                 result.add(position);

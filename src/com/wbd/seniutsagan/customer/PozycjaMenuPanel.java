@@ -99,8 +99,17 @@ class PozycjaMenuPanel extends JPanel implements MouseListener{
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {}
+    public void mousePressed(MouseEvent e) {
+        if(e.getComponent() instanceof JPanel) {
+            setBackground(Color.green);
+            orderPanel.setBackground(Color.green);
+            infoPanel.setBackground(Color.green);
+        }
+    }
 
     @Override
-    public void mouseReleased(MouseEvent e) {}
+    public void mouseReleased(MouseEvent e) {
+        if(e.getComponent() instanceof JPanel)
+            mouseExited(e);
+    }
 }

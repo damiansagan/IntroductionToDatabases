@@ -21,14 +21,15 @@ class MenuOrderPanel extends JPanel {
 
     MenuOrderPanel() {
         setLayout(new BorderLayout());
-        preparePozycjeMenu();
+        preparePozycjeMenuRodzajami();
         createScrollPane();
         add(scrollPane, BorderLayout.CENTER);
         JButton orderButton = new JButton("Zarezerwuj");
         orderButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         orderButton.addActionListener(e -> processOrder());
-        orderButton.setMaximumSize(new Dimension(100,30));
-        add(orderButton, BorderLayout.PAGE_END);
+        JPanel orderPanel = new JPanel();
+        orderPanel.add(orderButton);
+        add(orderPanel, BorderLayout.PAGE_END);
     }
 
     private void createScrollPane() {
@@ -70,7 +71,7 @@ class MenuOrderPanel extends JPanel {
         revalidate();
     }
 
-    private void preparePozycjeMenu() {
+    private void preparePozycjeMenuRodzajami() {
         pozycjeMenu = Singleton.updateMenu();
         //pozycjeMenuRodzajami = pozycjeMenu.stream().collect(Collectors.groupingBy(PozycjaMenuDTO::getRodzajOferty));
         pozycjeMenuRodzajami = new LinkedHashMap<>();
