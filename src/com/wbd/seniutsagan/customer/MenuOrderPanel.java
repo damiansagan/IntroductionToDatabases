@@ -24,6 +24,11 @@ class MenuOrderPanel extends JPanel {
         preparePozycjeMenu();
         createScrollPane();
         add(scrollPane, BorderLayout.CENTER);
+        JButton orderButton = new JButton("Zarezerwuj");
+        orderButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        orderButton.addActionListener(e -> processOrder());
+        orderButton.setMaximumSize(new Dimension(100,30));
+        add(orderButton, BorderLayout.PAGE_END);
     }
 
     private void createScrollPane() {
@@ -37,12 +42,8 @@ class MenuOrderPanel extends JPanel {
             scrollPanel.add(label);
             v.forEach(p -> scrollPanel.add(new PozycjaMenuPanel(p,zamowienieDTO)));
         });
-        JButton orderButton = new JButton("Zarezerwuj");
-        orderButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         scrollPanel.add(Box.createRigidArea(new Dimension(0,10)));
-        scrollPanel.add(orderButton);
         scrollPane = new JScrollPane(scrollPanel);
-        orderButton.addActionListener(e -> processOrder());
     }
 
     private void processOrder() {
