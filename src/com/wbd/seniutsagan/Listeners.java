@@ -1,5 +1,8 @@
 package com.wbd.seniutsagan;
 
+import com.wbd.seniutsagan.service.ManagerPanel;
+import com.wbd.seniutsagan.service.PracownicyPanel;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -14,6 +17,7 @@ import java.util.List;
 public class Listeners {
 
     KierownikFrame frame;
+    ManagerPanel managerPanel;
 
     public PracownicyListener pracownicyListener;
     public WynagrodzeniaListener wynagrodzeniaListener;
@@ -25,11 +29,12 @@ public class Listeners {
     public InfoListener infoListener;
 
     // mozna zrobic analogiczny konstruktor dla innych frames
-    public Listeners(KierownikFrame kierownikFrame) {
-        frame = kierownikFrame;
+    public Listeners(ManagerPanel managerPanel, KierownikFrame kframe) {
+        frame = kframe;
+        this.managerPanel = managerPanel;
 
 
-        pracownicyListener = new PracownicyListener( kierownikFrame);
+        pracownicyListener = new PracownicyListener( managerPanel, frame);
         wynagrodzeniaListener = new WynagrodzeniaListener();
         produktyListener = new ProduktyListener();
         menuListener = new MenuListener();
@@ -38,32 +43,34 @@ public class Listeners {
     }
 
     class PracownicyListener implements ActionListener {
+        private PracownicyPanel pracownicyPanel ;
         JPanel pracownikDataPanel;
         KierownikFrame frame;
         int i = 0;
 
-        PracownicyListener(KierownikFrame kierownikFrame) {
+        PracownicyListener(ManagerPanel managerPanel, KierownikFrame frame) {
             super();
-            frame = kierownikFrame;
+            //frame = kierownikFrame;
             i++;
-            pracownikDataPanel = new JPanel(new BorderLayout());
-            pracownikDataPanel.setName("pracownik data panel");
-            // pracownikDataPanel = cafePanel;
+            pracownicyPanel = new PracownicyPanel(i);
+
         }
 
 
-        //instance table model
-        DefaultTableModel tableModel = new DefaultTableModel() {
-
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                //all cells false
-                return false;
-            }
-        };
+//        //instance table model
+//        DefaultTableModel tableModel = new DefaultTableModel() {
+//
+//            @Override
+//            public boolean isCellEditable(int row, int column) {
+//                //all cells false
+//                return false;
+//            }
+//        };
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
+            managerPanel.swapView("PRACOWNICY");
+
             PracownicyDAO pracownicyDAO = new SQLPracownikDAO();
             List<PracownikDTO> pracownicyList = null;
             try {
@@ -72,84 +79,6 @@ public class Listeners {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
-            JTable pracownicyTable = new JTable();
-
-            DefaultTableModel model = new DefaultTableModel();
-
-            Object[] pracownicyColumns = new Object[4];
-            pracownicyColumns[0] = "Id";
-            pracownicyColumns[1] = "Stanowisko";
-            pracownicyColumns[2] = "Imię";
-            pracownicyColumns[3] = "Nazwisko";
-
-            tableModel.setColumnIdentifiers(pracownicyColumns);
-            pracownicyTable.getTableHeader().setReorderingAllowed(false);
-            Object[] rowData = new Object[4];
-            for (int i = 0; i < pracownicyList.size(); i++) {
-                rowData[0] = pracownicyList.get(i).getId();
-                rowData[1] = pracownicyList.get(i).getStanowisko();
-                rowData[2] = pracownicyList.get(i).getImie();
-                rowData[3] = pracownicyList.get(i).getNazwisko();
-
-                tableModel.addRow(rowData);
-
-            }
-
-            pracownicyTable.setModel(tableModel);
-            pracownicyTable.setRowSelectionAllowed(true);
-            pracownicyTable.setColumnSelectionAllowed(false);
-            System.out.println(frame.getContentPane().getComponent(3).getName());
-//            frame.getContentPane().getComponent(3).getParent().getComponent(3).
-
-
-            JScrollPane pane = new JScrollPane(pracownicyTable);
-            JPanel pracownicyPanel = new JPanel();
-            // Jscrollpane dodajmy do panelu pracownicyPanel
-            pracownicyPanel.removeAll();
-            pracownicyPanel.add(pane);
-            pracownicyPanel.revalidate();
-            frame.getContentPane().remove(frame.getContentPane().getComponent(3));
-            frame.getContentPane().add(pracownicyPanel,BorderLayout.CENTER);
-            // pracownicyPanel.setLayout(new BorderLayout());
-          //
-            //    if (pracownikDataPanel == null){
-            // pracownicyPanel.add(pane, BorderLayout.CENTER);
-            // pracownicyPanel.setName("second");
-           // pane.add(pracownikDataPanel,BorderLayout.CENTER);
-           // pracownikDataPanel.add(pane, BorderLayout.CENTER);
-          //  frame.getContentPane().remove(frame.getContentPane().getComponent(3));
-     //       frame.getContentPane().getComponent(3).getLayout().add(pracownikDataPanel, "pracownik data panel");
-         //   frame.getContentPane().getComponent(3).getParent().getLayout().sho
-            frame.getContentPane().validate();
-
-
-            //pane.setName("pracownik panel");
-           // frame.getComponent(2);
-
-
-          //  frame.getContentPane().getComponent(3).add(pracownikDataPanel);
-            // getLayout().addLayoutComponent("pracownik panel",pracownikDataPanel);
-            // frame.getLayout().
-
-            //pracownikDataPanel.add(pracownicyPanel,"pracownicy panel");
-            // CardLayout cl = pracownikDataPanel.getLayout();
-            // pracownikDataPanel.getLayout().
-            // System.out.println(frame.getContentPane().getComponent(3));
-            // if(frame.getContentPane().getComponent(3).getName() == "first") {
-            // frame.getContentPane().add(pracownicyPanel, BorderLayout.CENTER);
-            //  frame.getContentPane().remove(frame.getContentPane().getComponent(3));
-            // frame.getContentPane().revalidate();
-
-            // frame.getContentPane().remove(frame.getContentPane().getComponent(3));
-            // frame.remove(frame.getContentPane().getComponent(3));
-
-            // frame.getContentPane().repaint();
-            // frame.getContentPane().revalidate();
-            //  frame.pack();
-            //  frame.repaint();
-            // }
-            // }
 
 
             StringBuilder stringBuilder = new StringBuilder();
@@ -169,7 +98,8 @@ public class Listeners {
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            //  new InstructionsRead();
+            managerPanel.swapView("WYNAGRODZENIA");
+
         }
     }
 
@@ -180,7 +110,7 @@ public class Listeners {
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            //  new InstructionsRead();
+            managerPanel.swapView("PRODUKTY");
         }
     }
 
@@ -191,7 +121,7 @@ public class Listeners {
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            //  new InstructionsRead();
+            managerPanel.swapView("PRODUKTY");
         }
     }
 
@@ -203,7 +133,7 @@ public class Listeners {
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            //  new InstructionsRead();
+
         }
     }
 
@@ -214,7 +144,7 @@ public class Listeners {
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            //  new InstructionsRead();
+
         }
     }
 
@@ -236,7 +166,7 @@ public class Listeners {
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            //  new InstructionsRead();
+           // managerPanel.swapView("I");
         }
     }
 }

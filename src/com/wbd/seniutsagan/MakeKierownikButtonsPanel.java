@@ -1,5 +1,7 @@
 package com.wbd.seniutsagan;
 
+import com.wbd.seniutsagan.service.ManagerPanel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -11,6 +13,8 @@ public class MakeKierownikButtonsPanel extends JPanel{
 
 
         private Listeners listeners;
+        private ManagerPanel managerPanel;
+        KierownikFrame frame;
         static String pracownicyString = "Pracownicy";
         static String produktyString = "Produkty";
         static String wynagrodzeniaString = "Wynagrodzenia";
@@ -20,11 +24,11 @@ public class MakeKierownikButtonsPanel extends JPanel{
          * method filling buttons panel with buttons and necessary elements
          * @param frame - main frame of the program
          */
-        public MakeKierownikButtonsPanel(KierownikFrame frame)
+        public MakeKierownikButtonsPanel(Listeners listeners)
         {
-                super();
+              //  super();
            // super(new BorderLayout());
-            listeners=frame.listeners;
+           // listeners=frame.listeners;
 //        this.setBackground(Color.WHITE);
 
            // this.setMinimumSize(new Dimension(120, 30));
@@ -32,7 +36,7 @@ public class MakeKierownikButtonsPanel extends JPanel{
 
             //In initialization code:
             //Create the radio buttons.
-
+            //frame = kframe;
             JRadioButton pracownicyButton = new JRadioButton(pracownicyString);
             pracownicyButton.setMnemonic(KeyEvent.VK_B);
             pracownicyButton.setActionCommand(pracownicyString);

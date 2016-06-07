@@ -23,7 +23,7 @@ public class DbButtonsPanel extends JPanel {
        // this.setMinimumSize(new Dimension(120, 30));
        // this.setPreferredSize(new Dimension(180, 80));
 
-        listeners=frame.listeners;
+      //  listeners=frame.listeners;
 
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         //this.setBorder(BorderFactory.createTitledBorder("cos"));

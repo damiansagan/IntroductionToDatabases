@@ -1,5 +1,7 @@
 package com.wbd.seniutsagan;
 
+import com.wbd.seniutsagan.service.ManagerPanel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -15,7 +17,7 @@ public class KierownikFrame extends JFrame {
     private static final int WINDOW_WIDTH = 800;
 
     public String language;
-    public Listeners listeners;
+   // public Listeners listeners;
     boolean condition = true;
 
     public static void main(String[] args) {
@@ -41,54 +43,10 @@ public class KierownikFrame extends JFrame {
 
         language="polish";
         condition = true;
+        ManagerPanel managerPanel = new ManagerPanel(this);
+        getContentPane().add(managerPanel);
 
-        // container Panel
-        JPanel container = new JPanel();
-      //  CardLayout cl = new CardLayout();
-        // cafe_panel
-        Cafe_Panel cafe_panel = new Cafe_Panel();
-        cafe_panel.setName("main kierownik panel");
-        // main db operations buttons
-        DbButtonsPanel dbButtonsPanel = new DbButtonsPanel(this);
-        listeners = new Listeners(this);
-        setVisible(true);
-        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-
-        // buttons panel on left
-        MakeKierownikButtonsPanel kierownikButtons = new MakeKierownikButtonsPanel(this );
-
-
-
-
-
-       // container.setLayout(new BoxLayout(container, BoxLayout.X_AXIS));
-
-
-        // wykomentowana z początkowym panelem
-
-
-        //Cafe_Panel cafe_panel = null;
-
-
-       // container.add(cafe_panel,BorderLayout.CENTER);
-        getContentPane().add(cafe_panel,BorderLayout.CENTER);
-      //  this.add(cafe_panel, BorderLayout.CENTER);
-
-
-
-       // container.add(dbButtonsPanel,BorderLayout.NORTH);
-
-        getContentPane().add(dbButtonsPanel,BorderLayout.NORTH);
-        //this.add(dbButtonsPanel,BorderLayout.NORTH);
-
-
-//        this.setLayout(new BorderLayout());
-
-
-       // container.add(kierownikButtons,BorderLayout.WEST);
-        getContentPane().add(kierownikButtons,BorderLayout.WEST);
-        //this.add(kierownikButtons, BorderLayout.WEST);
-        this.pack();
+            setVisible(true);
 
         WindowListener exitListener = new WindowAdapter() {
 
