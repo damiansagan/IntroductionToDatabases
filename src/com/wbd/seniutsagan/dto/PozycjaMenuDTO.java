@@ -3,7 +3,7 @@ package com.wbd.seniutsagan.dto;
 
 public class PozycjaMenuDTO {
 
-    private Integer id;
+    private final Integer id;
     private String rodzajOferty;
     private String nazwa;
     private Double cena;
@@ -19,6 +19,19 @@ public class PozycjaMenuDTO {
         this.nazwa = nazwa;
         this.cena = cena;
         this.potrawy = potrawy;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PozycjaMenuDTO)) return false;
+        PozycjaMenuDTO that = (PozycjaMenuDTO) o;
+        return getId().equals(that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getId().hashCode();
     }
 
     @Override

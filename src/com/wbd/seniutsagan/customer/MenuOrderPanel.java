@@ -1,6 +1,7 @@
 package com.wbd.seniutsagan.customer;
 
 import com.wbd.seniutsagan.dto.PozycjaMenuDTO;
+import com.wbd.seniutsagan.dto.ZamowienieDTO;
 import com.wbd.seniutsagan.main.Singleton;
 
 import javax.swing.*;
@@ -16,32 +17,45 @@ class MenuOrderPanel extends JPanel {
     private Map<String,List<PozycjaMenuDTO>> pozycjeMenuRodzajami;
     private JScrollPane scrollPane;
     private JPanel scrollPanel;
+    private ZamowienieDTO zamowienieDTO = new ZamowienieDTO();
 
     MenuOrderPanel() {
+        setLayout(new BorderLayout());
         preparePozycjeMenu();
         createScrollPane();
-        setLayout(new BorderLayout());
         add(scrollPane, BorderLayout.CENTER);
     }
 
     private void createScrollPane() {
         scrollPanel = new JPanel();
         scrollPanel.setLayout(new BoxLayout(scrollPanel, BoxLayout.PAGE_AXIS));
-
         pozycjeMenuRodzajami.forEach((k,v) -> {
             JLabel label = new JLabel(k);
             label.setFont(new Font("Arial", Font.PLAIN, 19));
             label.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
             label.setAlignmentX(Component.CENTER_ALIGNMENT);
             scrollPanel.add(label);
-            v.forEach(p -> scrollPanel.add(new PozycjaMenuPanel(p)));
+            v.forEach(p -> scrollPanel.add(new PozycjaMenuPanel(p,zamowienieDTO)));
         });
         JButton orderButton = new JButton("Zarezerwuj");
         orderButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        scrollPanel.add(Box.createRigidArea(new Dimension(0,10)));
         scrollPanel.add(orderButton);
-
         scrollPane = new JScrollPane(scrollPanel);
-        scrollPanel.setMaximumSize(new Dimension(300,300));
+        orderButton.addActionListener(e -> {
+            Singleton.getZamowienieService().order(zamowienieDTO);
+            zamowienieDTO=new ZamowienieDTO();
+            recreateScrollPane();
+            JOptionPane.showMessageDialog(null, "Zamówienie zostało złożone.", "Dziękujemy!",
+                    JOptionPane.INFORMATION_MESSAGE);
+        });
+    }
+
+    private void recreateScrollPane() {
+        remove(scrollPane);
+        createScrollPane();
+        add(scrollPane, BorderLayout.CENTER);
+        revalidate();
     }
 
     private void preparePozycjeMenu() {
