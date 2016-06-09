@@ -16,6 +16,10 @@ public interface PracownicyDAO {
 
     List<PracownikDTO> readAllPracownik()throws SQLException;
 
+    // wczytuje wybranego pracownika
+    PracownikDTO readSelectedPracownik(int num)throws SQLException;
+
+
     ResultSet resultSetMainPracownik() throws SQLException;
 
     String[] headings(ResultSet pracownicyResultSet);

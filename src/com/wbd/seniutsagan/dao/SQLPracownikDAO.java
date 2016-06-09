@@ -157,4 +157,41 @@ public class SQLPracownikDAO implements PracownicyDAO {
 
         }
 
+
+    @Override
+    public PracownikDTO readSelectedPracownik (int num) throws SQLException {
+        PracownikDTO resultPracownik = null;
+        try (Connection connection = getDBConnection();
+             Statement stmt = connection.createStatement()
+        ) {
+
+
+            ResultSet rs = stmt.executeQuery("select * from Pracownicy where ID_PRACOWNIK ="+num );
+            while (rs.next()) {
+                PracownikDTO pracownik = new PracownikDTO(num);
+                pracownik.setStanowisko(rs.getString("STANOWISKO"));
+                pracownik.setImie(rs.getString("IMIE"));
+                pracownik.setNazwisko(rs.getString("NAZWISKO"));
+                pracownik.setDataUrodzenia(rs.getDate("DATA_URODZENIA"));
+                pracownik.setPESEL(rs.getString("PESEL"));
+                pracownik.setNrKonta(rs.getString("NR_KONTA"));
+                pracownik.setKawiarniaId(rs.getInt("ID_KAWIARNIA"));
+                pracownik.setLokalId(rs.getInt("ID_LOKAL"));
+
+                resultPracownik=pracownik;
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return resultPracownik;
+
+
+    }
+
+
+
+
     }

@@ -21,19 +21,23 @@ public class PracownicyInfoPanel extends JPanel {
     private JScrollPane scrollPane;
     private JScrollPane scrollPanel;
     private JTable pracownicyTable;
+    private PracownikDTO pracownikDTO;
     private PracownicyDAO pracownicyDAO = new SQLPracownikDAO();
+    private int pracownikNr;
 
 
-    PracownicyInfoPanel() {
+//    PracownicyInfoPanel() {
+//        setLayout(new BorderLayout());
+//        createPracownicyTable();
+//        preparePracownicyData();
+//        createScrollPane();
+//        add(scrollPane, BorderLayout.CENTER);
+//    }
+    public PracownicyInfoPanel(int num) {
         setLayout(new BorderLayout());
+        pracownikNr = num;
         createPracownicyTable();
-        preparePracownicyData();
-        createScrollPane();
-        add(scrollPane, BorderLayout.CENTER);
-    }
-    public PracownicyInfoPanel(int k) {
-        setLayout(new BorderLayout());
-        createPracownicyTable();
+
         preparePracownicyData();
         createScrollPane();
         add(scrollPane, BorderLayout.CENTER);
@@ -42,7 +46,9 @@ public class PracownicyInfoPanel extends JPanel {
     private void createPracownicyTable(){
         try {
             // zwraca result w postaci ArrayList
-            pracownicyList = pracownicyDAO.readAllPracownik();
+            //pracownicyList = pracownicyDAO.readAllPracownik();
+            pracownikDTO = pracownicyDAO.readSelectedPracownik(pracownikNr);
+            System.out.println(pracownikDTO.toString());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -75,21 +81,22 @@ public class PracownicyInfoPanel extends JPanel {
         tableModel.setColumnIdentifiers(pracownicyColumns);
         pracownicyTable.getTableHeader().setReorderingAllowed(false);
         Object[] rowData = new Object[9];
-        for (int i = 0; i < pracownicyList.size(); i++) {
-            rowData[0] = pracownicyList.get(i).getId();
-            rowData[1] = pracownicyList.get(i).getStanowisko();
-            rowData[2] = pracownicyList.get(i).getImie();
-            rowData[3] = pracownicyList.get(i).getNazwisko();
-            rowData[4] = pracownicyList.get(i).getDataUrodzenia();
-            rowData[5] = pracownicyList.get(i).getPESEL();
-            rowData[6] = pracownicyList.get(i).getNrKonta();
-            rowData[7] = pracownicyList.get(i).getKawiarniaId();
-            rowData[8] = pracownicyList.get(i).getLokalId();
+       // for (int i = 0; i < pracownicyList.size(); i++) {
+        System.out.println(pracownikDTO.getId());
+            rowData[0] = pracownikDTO.getId();
+            rowData[1] = pracownikDTO.getStanowisko();
+            rowData[2] = pracownikDTO.getImie();
+            rowData[3] = pracownikDTO.getNazwisko();
+            rowData[4] = pracownikDTO.getDataUrodzenia();
+            rowData[5] = pracownikDTO.getPESEL();
+            rowData[6] = pracownikDTO.getNrKonta();
+            rowData[7] = pracownikDTO.getKawiarniaId();
+            rowData[8] = pracownikDTO.getLokalId();
 
 
             tableModel.addRow(rowData);
 
-        }
+      //  }
 
         pracownicyTable.setModel(tableModel);
         pracownicyTable.setRowSelectionAllowed(true);
@@ -144,6 +151,9 @@ public class PracownicyInfoPanel extends JPanel {
         pracownicyList = Singleton.updatePracownik();
     }
 
+    public void setPracownikNr(int num){
+        pracownikNr = num;
+    }
 
 
 }

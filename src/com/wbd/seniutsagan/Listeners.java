@@ -4,6 +4,7 @@ import com.wbd.seniutsagan.dao.PracownicyDAO;
 import com.wbd.seniutsagan.dao.SQLPracownikDAO;
 import com.wbd.seniutsagan.dto.PracownikDTO;
 import com.wbd.seniutsagan.service.ManagerPanel;
+import com.wbd.seniutsagan.service.PracownicyInfoPanel;
 import com.wbd.seniutsagan.service.PracownicyPanel;
 
 import javax.swing.*;
@@ -162,9 +163,14 @@ public class Listeners {
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            if (pracownicyRowListener == 3) {
+          //  if (pracownicyRowListener == 3) {
+
+
+            PracownicyInfoPanel pracownicyInfoPanel = new PracownicyInfoPanel(pracownicyRowListener);
+            managerPanel.getContainerPanel().add(pracownicyInfoPanel, "PRACOWNICY_INFO");
+            //managerPanel.getPracownicyInfoPanel().setPracownikNr(pracownicyRowListener);
                 managerPanel.swapView("PRACOWNICY_INFO");
-            }
+          //  }
 
         }
 

@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 public class ManagerPanel extends JPanel implements ActionListener {
     JPanel dbButtonsPanel, container, selectionButtonsPanel;
     MakeKierownikButtonsPanel kPanel;
+    PracownicyInfoPanel pracownicyInfoPanel;
     KierownikFrame frame ;
     CardLayout containerLayout;
     Listeners listeners;
@@ -45,8 +46,9 @@ public class ManagerPanel extends JPanel implements ActionListener {
         JPanel produktyPanel = new JPanel();
         JPanel menuPanel = new JPanel();
         JPanel defaultPanel = new JPanel();
+       // pracownicyInfoPanel = new PracownicyInfoPanel();
         container.add(new PracownicyPanel(listeners), "PRACOWNICY");
-        container.add(new PracownicyInfoPanel(), "PRACOWNICY_INFO");
+       // container.add(new PracownicyInfoPanel(), "PRACOWNICY_INFO");
         container.add(wynagrodzeniaPanel, "WYNAGRODZENIA");
         container.add(produktyPanel, "PRODUKTY");
         container.add(menuPanel, "MENU");
@@ -103,4 +105,12 @@ public class ManagerPanel extends JPanel implements ActionListener {
         CardLayout cardLayout = (CardLayout)(container.getLayout());
         cardLayout.show(container, e.getActionCommand());
     }
+
+    public PracownicyInfoPanel getPracownicyInfoPanel(){
+        return pracownicyInfoPanel;
+    }
+
+
+
+
 }
