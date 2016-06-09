@@ -72,11 +72,11 @@ public class ManagerPanel extends JPanel implements ActionListener {
         JButton deleteButton = new JButton(dbButtonNames[2]);
         JButton infoButton = new JButton(dbButtonNames[3]);
 
-        // TODO: zmienic argumenty w listenerach na listeners.(...)
-        addButton.addActionListener(this);
-        modifyButton.addActionListener(this);
-        deleteButton.addActionListener(this);
-        infoButton.addActionListener(this);
+
+        addButton.addActionListener(listeners.dodajListener);
+        modifyButton.addActionListener(listeners.zmodyfikujListener);
+        deleteButton.addActionListener(listeners.usunListener);
+        infoButton.addActionListener(listeners.infoListener);
 
 
         dbButtonsPanel = new JPanel();
@@ -88,24 +88,8 @@ public class ManagerPanel extends JPanel implements ActionListener {
     }
 
     private void createSidePanel() {
+
         kPanel = new MakeKierownikButtonsPanel(listeners);
-       // new MakeKierownikButtonsPanel(kframe);
-//        JButton pracownicyButton = new JButton(selectionButtonNames[0]);
-//        JButton wynagrodzeniaButton = new JButton(selectionButtonNames[1]);
-//        JButton produktyButton = new JButton(selectionButtonNames[2]);
-//        JButton menuButton = new JButton(selectionButtonNames[3]);
-//
-//        pracownicyButton.addActionListener(this);
-//        wynagrodzeniaButton.addActionListener(this);
-//        produktyButton.addActionListener(this);
-//        menuButton.addActionListener(this);
-//
-//
-//        selectionButtonsPanel = new JPanel();
-//        selectionButtonsPanel.add(pracownicyButton);
-//        selectionButtonsPanel.add(wynagrodzeniaButton);
-//        selectionButtonsPanel.add(produktyButton);
-//        selectionButtonsPanel.add(menuButton);
 
     }
 

@@ -1,7 +1,7 @@
 package com.wbd.seniutsagan.service;
 
-import com.wbd.seniutsagan.PracownicyDAO;
-import com.wbd.seniutsagan.PracownikDTO;
+import com.wbd.seniutsagan.dao.PracownicyDAO;
+import com.wbd.seniutsagan.dto.PracownikDTO;
 
 
 import java.sql.SQLException;
@@ -19,7 +19,7 @@ public class PracownicyData {
 
     public List<PracownikDTO> getPracownik() {
         try {
-            return dao.readAllPracownik();
+            return dao.readMainPracownik();
         } catch (SQLException e) {
             e.printStackTrace();
         }

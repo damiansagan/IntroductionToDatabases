@@ -1,6 +1,9 @@
 package com.wbd.seniutsagan.service;
 
 import com.wbd.seniutsagan.*;
+import com.wbd.seniutsagan.dao.PracownicyDAO;
+import com.wbd.seniutsagan.dao.SQLPracownikDAO;
+import com.wbd.seniutsagan.dto.PracownikDTO;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -68,7 +71,7 @@ class PracownicyListener implements ActionListener {
         List<PracownikDTO> pracownicyList = null;
         try {
             // zwraca result w postaci ArrayList
-            pracownicyList = pracownicyDAO.readAllPracownik();
+            pracownicyList = pracownicyDAO.readMainPracownik();
         } catch (SQLException e) {
             e.printStackTrace();
         }

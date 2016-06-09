@@ -1,4 +1,4 @@
-package com.wbd.seniutsagan;
+package com.wbd.seniutsagan.dto;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -18,7 +18,7 @@ public class PracownikDTO {
     private Integer kawiarniaId;
     private Integer lokalId;
 
-    PracownikDTO(Integer id) {
+    public PracownikDTO(Integer id) {
         this.id = id;
     }
 

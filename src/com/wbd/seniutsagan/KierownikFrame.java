@@ -46,7 +46,7 @@ public class KierownikFrame extends JFrame {
         ManagerPanel managerPanel = new ManagerPanel(this);
         getContentPane().add(managerPanel);
 
-            setVisible(true);
+        setVisible(true);
 
         WindowListener exitListener = new WindowAdapter() {
 

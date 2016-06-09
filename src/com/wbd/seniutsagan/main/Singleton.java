@@ -1,8 +1,8 @@
 package com.wbd.seniutsagan.main;
 
 
-import com.wbd.seniutsagan.PracownikDTO;
-import com.wbd.seniutsagan.SQLPracownikDAO;
+import com.wbd.seniutsagan.dto.PracownikDTO;
+import com.wbd.seniutsagan.dao.SQLPracownikDAO;
 import com.wbd.seniutsagan.dao.SQLMenuDAO;
 import com.wbd.seniutsagan.dao.SQLZamowienieDAO;
 import com.wbd.seniutsagan.dto.PozycjaMenuDTO;

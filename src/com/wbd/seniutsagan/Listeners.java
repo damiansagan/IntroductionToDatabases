@@ -1,11 +1,12 @@
 package com.wbd.seniutsagan;
 
+import com.wbd.seniutsagan.dao.PracownicyDAO;
+import com.wbd.seniutsagan.dao.SQLPracownikDAO;
+import com.wbd.seniutsagan.dto.PracownikDTO;
 import com.wbd.seniutsagan.service.ManagerPanel;
 import com.wbd.seniutsagan.service.PracownicyPanel;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -57,16 +58,6 @@ public class Listeners {
         }
 
 
-//        //instance table model
-//        DefaultTableModel tableModel = new DefaultTableModel() {
-//
-//            @Override
-//            public boolean isCellEditable(int row, int column) {
-//                //all cells false
-//                return false;
-//            }
-//        };
-
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             managerPanel.swapView("PRACOWNICY");
@@ -75,7 +66,7 @@ public class Listeners {
             List<PracownikDTO> pracownicyList = null;
             try {
                 // zwraca result w postaci ArrayList
-                pracownicyList = pracownicyDAO.readAllPracownik();
+                pracownicyList = pracownicyDAO.readMainPracownik();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

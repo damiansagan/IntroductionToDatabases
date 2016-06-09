@@ -1,8 +1,8 @@
 package com.wbd.seniutsagan.service;
 
 import com.wbd.seniutsagan.dao.PracownicyDAO;
-import com.wbd.seniutsagan.dto.PracownikDTO;
 import com.wbd.seniutsagan.dao.SQLPracownikDAO;
+import com.wbd.seniutsagan.dto.PracownikDTO;
 import com.wbd.seniutsagan.main.Singleton;
 
 import javax.swing.*;
@@ -10,31 +10,28 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Created by monika03 on 07.06.16.
+ * Created by monika03 on 08.06.16.
  */
-public class PracownicyPanel extends JPanel {
-
+public class PracownicyInfoPanel extends JPanel {
     private List<PracownikDTO> pracownicyList ;
-    private String [] headings;
     private JScrollPane scrollPane;
     private JScrollPane scrollPanel;
     private JTable pracownicyTable;
     private PracownicyDAO pracownicyDAO = new SQLPracownikDAO();
 
 
-    PracownicyPanel() {
+    PracownicyInfoPanel() {
         setLayout(new BorderLayout());
         createPracownicyTable();
         preparePracownicyData();
         createScrollPane();
         add(scrollPane, BorderLayout.CENTER);
     }
-    public PracownicyPanel(int k) {
+    public PracownicyInfoPanel(int k) {
         setLayout(new BorderLayout());
         createPracownicyTable();
         preparePracownicyData();
@@ -43,18 +40,9 @@ public class PracownicyPanel extends JPanel {
     }
 
     private void createPracownicyTable(){
-
         try {
             // zwraca result w postaci ArrayList
-            pracownicyList = pracownicyDAO.readMainPracownik();
-
-            ResultSet pracownicyResultSet = pracownicyDAO.resultSetMainPracownik();
-            headings= pracownicyDAO.headings(pracownicyResultSet);
-            //for (int i=0; i< headings.length; i++) {
-              //  System.out.println("get1: " + headings[i]);
-           // }
-
-
+            pracownicyList = pracownicyDAO.readAllPracownik();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -71,15 +59,13 @@ public class PracownicyPanel extends JPanel {
 
         pracownicyTable = new JTable();
 
-       // Object[] pracownicyColumns = new Object[headings.length];
         Object[] pracownicyColumns = new Object[4];
-//        for (int i=0; i< headings.length; i++) {
-//            pracownicyColumns[i] = headings[i];
-//        }
         pracownicyColumns[0] = "Id";
         pracownicyColumns[1] = "Stanowisko";
         pracownicyColumns[2] = "Imię";
         pracownicyColumns[3] = "Nazwisko";
+
+
 
         tableModel.setColumnIdentifiers(pracownicyColumns);
         pracownicyTable.getTableHeader().setReorderingAllowed(false);
@@ -146,7 +132,6 @@ public class PracownicyPanel extends JPanel {
     private void preparePracownicyData() {
         pracownicyList = Singleton.updatePracownik();
     }
-
 
 
 
