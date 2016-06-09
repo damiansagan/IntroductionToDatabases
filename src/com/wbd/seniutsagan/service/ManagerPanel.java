@@ -47,7 +47,9 @@ public class ManagerPanel extends JPanel implements ActionListener {
         JPanel menuPanel = new JPanel();
         JPanel defaultPanel = new JPanel();
        // pracownicyInfoPanel = new PracownicyInfoPanel();
+        ModifyPracownikDataPanel modifyPracownikDataPanel = new ModifyPracownikDataPanel();
         container.add(new PracownicyPanel(listeners), "PRACOWNICY");
+        container.add(modifyPracownikDataPanel, "PRACOWNICY_MODIFY");
        // container.add(new PracownicyInfoPanel(), "PRACOWNICY_INFO");
         container.add(wynagrodzeniaPanel, "WYNAGRODZENIA");
         container.add(produktyPanel, "PRODUKTY");

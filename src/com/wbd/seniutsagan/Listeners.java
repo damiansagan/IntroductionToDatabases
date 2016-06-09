@@ -38,6 +38,7 @@ public class Listeners {
 
 
         pracownicyListener = new PracownicyListener( managerPanel, frame);
+        zmodyfikujListener = new ZmodyfikujListener();
         wynagrodzeniaListener = new WynagrodzeniaListener();
         produktyListener = new ProduktyListener();
         menuListener = new MenuListener();
@@ -151,7 +152,8 @@ public class Listeners {
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            //  new InstructionsRead();
+            managerPanel.swapView("PRACOWNICY_MODIFY");
+
         }
     }
 
