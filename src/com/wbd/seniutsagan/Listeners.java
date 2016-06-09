@@ -28,6 +28,7 @@ public class Listeners {
     public UsunListener usunListener;
     public ZmodyfikujListener zmodyfikujListener;
     public InfoListener infoListener;
+    private int pracownicyRowClicked;
 
     // mozna zrobic analogiczny konstruktor dla innych frames
     public Listeners(ManagerPanel managerPanel, KierownikFrame kframe) {
@@ -40,6 +41,7 @@ public class Listeners {
         produktyListener = new ProduktyListener();
         menuListener = new MenuListener();
         dodajListener = new DodajListener();
+        infoListener = new InfoListener();
 
     }
 
@@ -47,13 +49,15 @@ public class Listeners {
         private PracownicyPanel pracownicyPanel ;
         JPanel pracownikDataPanel;
         KierownikFrame frame;
+        Listeners listeners;
         int i = 0;
 
         PracownicyListener(ManagerPanel managerPanel, KierownikFrame frame) {
             super();
             //frame = kierownikFrame;
             i++;
-            pracownicyPanel = new PracownicyPanel(i);
+            listeners = managerPanel.getManagerPanelListeners();
+            pracownicyPanel = new PracownicyPanel(listeners);
 
         }
 
@@ -151,13 +155,27 @@ public class Listeners {
     }
 
     class InfoListener implements ActionListener {
+        private int pracownicyRowListener;
         InfoListener() {
             super();
         }
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-           // managerPanel.swapView("I");
+            if (pracownicyRowListener == 3) {
+                managerPanel.swapView("PRACOWNICY_INFO");
+            }
+
         }
+
+        public void setPracownicyRowListener(int num) { pracownicyRowListener= num; }
+
     }
+
+
+    public void setPracownicyRowClicked(int num) {
+        pracownicyRowClicked= num;
+    infoListener.setPracownicyRowListener(num);
+    }
+
 }

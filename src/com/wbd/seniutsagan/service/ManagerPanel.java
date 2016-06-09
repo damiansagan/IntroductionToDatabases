@@ -45,7 +45,8 @@ public class ManagerPanel extends JPanel implements ActionListener {
         JPanel produktyPanel = new JPanel();
         JPanel menuPanel = new JPanel();
         JPanel defaultPanel = new JPanel();
-        container.add(new PracownicyPanel(5), "PRACOWNICY");
+        container.add(new PracownicyPanel(listeners), "PRACOWNICY");
+        container.add(new PracownicyInfoPanel(), "PRACOWNICY_INFO");
         container.add(wynagrodzeniaPanel, "WYNAGRODZENIA");
         container.add(produktyPanel, "PRODUKTY");
         container.add(menuPanel, "MENU");
@@ -61,6 +62,10 @@ public class ManagerPanel extends JPanel implements ActionListener {
 
     public JPanel getContainerPanel(){
         return container;
+    }
+
+    public Listeners getManagerPanelListeners(){
+        return listeners;
     }
 
     public CardLayout getContainerLayout(){

@@ -1,5 +1,6 @@
 package com.wbd.seniutsagan.service;
 
+import com.wbd.seniutsagan.Listeners;
 import com.wbd.seniutsagan.dao.PracownicyDAO;
 import com.wbd.seniutsagan.dto.PracownikDTO;
 import com.wbd.seniutsagan.dao.SQLPracownikDAO;
@@ -7,6 +8,7 @@ import com.wbd.seniutsagan.main.Singleton;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.bind.Marshaller;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -25,20 +27,23 @@ public class PracownicyPanel extends JPanel {
     private JScrollPane scrollPanel;
     private JTable pracownicyTable;
     private PracownicyDAO pracownicyDAO = new SQLPracownikDAO();
+    private int row;
+    private Listeners listeners ;
 
 
-    PracownicyPanel() {
+//    PracownicyPanel() {
+//        setLayout(new BorderLayout());
+//        createPracownicyTable();
+//        preparePracownicyData();
+//        createScrollPane();
+//        add(scrollPane, BorderLayout.CENTER);
+//    }
+    public PracownicyPanel(Listeners passedListeners) {
         setLayout(new BorderLayout());
         createPracownicyTable();
         preparePracownicyData();
         createScrollPane();
-        add(scrollPane, BorderLayout.CENTER);
-    }
-    public PracownicyPanel(int k) {
-        setLayout(new BorderLayout());
-        createPracownicyTable();
-        preparePracownicyData();
-        createScrollPane();
+        listeners = passedListeners;
         add(scrollPane, BorderLayout.CENTER);
     }
 
@@ -101,8 +106,9 @@ public class PracownicyPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // getPoint +1, bo liczy od 0
-                int row = pracownicyTable.rowAtPoint(e.getPoint()) + 1;
+               row = pracownicyTable.rowAtPoint(e.getPoint()) + 1;
                 System.out.println(row);
+                listeners.setPracownicyRowClicked(row);
 
             }
 
@@ -147,7 +153,9 @@ public class PracownicyPanel extends JPanel {
         pracownicyList = Singleton.updatePracownik();
     }
 
-
+    private int getPracownikRowClicked(){
+        return row;
+    }
 
 
 }

@@ -132,7 +132,7 @@ public class SQLPracownikDAO implements PracownicyDAO {
             ) {
 
                 resultAll = new ArrayList<>();
-                ResultSet rs = stmt.executeQuery("select * from Pracownicy");
+                ResultSet rs = stmt.executeQuery("select * from Pracownicy order by ID_PRACOWNIK");
                 while (rs.next()) {
                     PracownikDTO pracownik = new PracownikDTO(rs.getInt("ID_PRACOWNIK"));
                     pracownik.setStanowisko(rs.getString("STANOWISKO"));

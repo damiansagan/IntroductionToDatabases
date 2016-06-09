@@ -59,22 +59,33 @@ public class PracownicyInfoPanel extends JPanel {
 
         pracownicyTable = new JTable();
 
-        Object[] pracownicyColumns = new Object[4];
+        Object[] pracownicyColumns = new Object[9];
         pracownicyColumns[0] = "Id";
         pracownicyColumns[1] = "Stanowisko";
         pracownicyColumns[2] = "Imię";
         pracownicyColumns[3] = "Nazwisko";
+        pracownicyColumns[4] = "Data urodzenia";
+        pracownicyColumns[5] = "PESEL";
+        pracownicyColumns[6] = "Nr Konta";
+        pracownicyColumns[7] = "Id kawiarni";
+        pracownicyColumns[8] = "Id lokalu";
 
 
 
         tableModel.setColumnIdentifiers(pracownicyColumns);
         pracownicyTable.getTableHeader().setReorderingAllowed(false);
-        Object[] rowData = new Object[4];
+        Object[] rowData = new Object[9];
         for (int i = 0; i < pracownicyList.size(); i++) {
             rowData[0] = pracownicyList.get(i).getId();
             rowData[1] = pracownicyList.get(i).getStanowisko();
             rowData[2] = pracownicyList.get(i).getImie();
             rowData[3] = pracownicyList.get(i).getNazwisko();
+            rowData[4] = pracownicyList.get(i).getDataUrodzenia();
+            rowData[5] = pracownicyList.get(i).getPESEL();
+            rowData[6] = pracownicyList.get(i).getNrKonta();
+            rowData[7] = pracownicyList.get(i).getKawiarniaId();
+            rowData[8] = pracownicyList.get(i).getLokalId();
+
 
             tableModel.addRow(rowData);
 
