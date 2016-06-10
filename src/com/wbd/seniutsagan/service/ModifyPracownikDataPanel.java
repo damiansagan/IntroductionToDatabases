@@ -12,7 +12,14 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * Created by monika03 on 09.06.16.
@@ -171,10 +178,10 @@ public class ModifyPracownikDataPanel extends JPanel {
 
 }
 
-    class TextFieldsFocusListener implements FocusListener{
+    class TextFieldsFocusListener implements FocusListener {
         private JTextField textField;
 
-        TextFieldsFocusListener(JTextField textfield){
+        TextFieldsFocusListener(JTextField textfield) {
             super();
             textField = textfield;
         }
@@ -188,26 +195,69 @@ public class ModifyPracownikDataPanel extends JPanel {
         public void focusLost(FocusEvent e) {
 
             System.out.println(textField.getText());
-            if (textField.getName().equals("stanowiskoTextField") || textField.getName().equals("imieTextField"))
+            if (textField.getName().equals("stanowiskoTextField") )
 
             {
                 boolean prawdziwe = verify(textField, 20);
-                System.out.println("czy poprawnie wpisane : " + prawdziwe);
+                System.out.println("czy poprawnie wpisane stanowisko: " + prawdziwe);
+                if (!prawdziwe ){
+                    JOptionPane.showMessageDialog(null, "Proszę podać poprawną nazwę stanowiska!");
+
+                }
             }
-            if (textField.getName().equals("nazwiskoTextField") )
+
+            if (
+                    textField.getName().equals("imieTextField") )
 
             {
                 boolean prawdziwe = verify(textField, 20);
+                System.out.println("czy poprawnie wpisane imię: " + prawdziwe);
+                if (!prawdziwe ){
+                    JOptionPane.showMessageDialog(null, "Proszę podać poprawne imię!");
+
+                }
+            }
+
+
+            if (textField.getName().equals("nazwiskoTextField"))
+
+            {
+                boolean prawdziwe = verify(textField, 30);
                 System.out.println("czy poprawnie wpisane nazwisko: " + prawdziwe);
+                if (!prawdziwe ){
+                    JOptionPane.showMessageDialog(null, "Proszę podać poprawne nazwisko(max 30 znaków)!");
+                }
             }
 
-            if (textField.getName().equals("peselTextField") )
+            if (textField.getName().equals("peselTextField"))
 
             {
                 boolean prawdziwe = verifyPESEL(textField, 11);
                 System.out.println("czy poprawnie wpisany pesel " + prawdziwe);
+                if (!prawdziwe){
+                    JOptionPane.showMessageDialog(null, "Proszę podać poprawny numer PESEL (11 znaków)");
+                }
             }
 
+            if (textField.getName().equals("nrKontaTextField"))
+
+            {
+                boolean prawdziwe = verifyBankAccount(textField, 26);
+                System.out.println("czy poprawnie wpisany ne konta " + prawdziwe);
+                if (!prawdziwe){
+                    JOptionPane.showMessageDialog(null, "Proszę podać poprawny nr Konta (26 znaków)");
+                }
+            }
+
+            if (textField.getName().equals("dataTextField"))
+
+            {
+                boolean prawdziwe = isValidDate(textField.getText().trim());
+                System.out.println("czy poprawnie wpisana data " + prawdziwe);
+//                if (!prawdziwe){
+//                    JOptionPane.showMessageDialog(null, "Proszę podać poprawną datę (yyyy-mm-dd)!");
+//                }
+            }
 
 
         }
@@ -215,12 +265,12 @@ public class ModifyPracownikDataPanel extends JPanel {
         public boolean verify(JComponent input, int countChars) {
             String name = input.getName();
 
-            if(name.equals("stanowiskoTextField") || name.equals("imieTextField"))
-            {
+            if (name.equals("stanowiskoTextField") || name.equals("imieTextField") || name.equals("nazwiskoTextField")) {
                 String text = ((JTextField) input).getText().trim();
-                if (isAllLetters(text, countChars)) return true;
-                else return false;
+                return isAllLetters(text, countChars) ;
+
             }
+
 
             return false;
 
@@ -228,41 +278,89 @@ public class ModifyPracownikDataPanel extends JPanel {
 
         public boolean verifyPESEL(JComponent input, int countChars) {
 
-             String text = ((JTextField) input).getText().trim();
-                return isAllNumbers(text, countChars) ;
+            String text = ((JTextField) input).getText().trim();
+            return isEqualNumbers(text, countChars);
+
+        }
+
+        public boolean verifyBankAccount(JComponent input, int countChars) {
+
+            String text = ((JTextField) input).getText().trim();
+            return isEqualNumbers(text, countChars);
 
         }
 
 
         public boolean isAllLetters(String name, int limitChars) {
             int number = name.length();
+            if (number == 0 ){
+                System.out.println("Pusty string");
+                return true;
+
+            }
             char[] chars = name.toCharArray();
 
             for (char c : chars) {
-                if(!Character.isLetter(c)) {
+                if (!Character.isLetter(c)) {
                     return false;
                 }
             }
 
-            if (number <= limitChars){return true;}
-            else return false;
+            if (number <= limitChars) {
+                return true;
+            } else return false;
         }
 
         public boolean isAllNumbers(String name, int limitNum) {
             int number = name.length();
+            if (number == 0 ){
+                System.out.println("Pusty string");
+                return true;
+
+            }
             String regex = "[0-9]+";
 
-            if(name.matches(regex) && (number <= limitNum)){
+            if (name.matches(regex) && (number <= limitNum)) {
                 return true;
-            }
+            } else return false;
+        }
 
-//            if (number <= limitNum){return true;}
-            else return false;
+        public boolean isEqualNumbers(String name, int limitNum) {
+            int number = name.length();
+            if (number == 0 ){
+                System.out.println("Pusty string");
+                return true;
+
+            }
+            String regex = "[0-9]+";
+
+            if (name.matches(regex) && (number == limitNum)) {
+                return true;
+            } else return false;
         }
 
 
+        private boolean isValidDate(String dateString) {
+            Date date = null;
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                date = sdf.parse(dateString);
+                // return true;
+                if (!dateString.equals(sdf.format(date))) {
+                    JOptionPane.showMessageDialog(null, "Please the correct letter!","Computerized Automatic Teller Machine", 1);
+
+                    return false;
+                }
+            } catch (ParseException ex) {
+                JOptionPane.showMessageDialog(null, "Proszę podać poprawną datę (yyyy-mm-dd)");
+                ex.printStackTrace();
+                return false;
+            }
+
+            return true;
 
 
+        }
     }
 
 //    public class Varchar20Verifier extends InputVerifier {
