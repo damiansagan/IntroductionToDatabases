@@ -153,7 +153,7 @@ public class PracownicyPanel extends JPanel {
         pracownicyList = Singleton.updatePracownik();
     }
 
-    private int getPracownikRowClicked(){
+    public int getPracownikRowClicked(){
         return row;
     }
 

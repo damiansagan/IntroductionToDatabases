@@ -154,6 +154,9 @@ public class PracownicyInfoPanel extends JPanel {
     public void setPracownikNr(int num){
         pracownikNr = num;
     }
+    public int getPracownikNr(){
+        return pracownikNr;
+    }
 
 
 }

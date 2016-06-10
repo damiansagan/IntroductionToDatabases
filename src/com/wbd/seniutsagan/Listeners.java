@@ -4,6 +4,7 @@ import com.wbd.seniutsagan.dao.PracownicyDAO;
 import com.wbd.seniutsagan.dao.SQLPracownikDAO;
 import com.wbd.seniutsagan.dto.PracownikDTO;
 import com.wbd.seniutsagan.service.ManagerPanel;
+import com.wbd.seniutsagan.service.ModifyPracownikDataPanel;
 import com.wbd.seniutsagan.service.PracownicyInfoPanel;
 import com.wbd.seniutsagan.service.PracownicyPanel;
 
@@ -146,15 +147,21 @@ public class Listeners {
     }
 
     class ZmodyfikujListener implements ActionListener {
+        private int pracownicyRowListener;
         ZmodyfikujListener() {
             super();
         }
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            managerPanel.swapView("PRACOWNICY_MODIFY");
+
+          ModifyPracownikDataPanel pracownikDataPanel = new ModifyPracownikDataPanel(pracownicyRowListener);
+            managerPanel.getContainerPanel().add(pracownikDataPanel, "PRACOWNICY_INFO");
+            //managerPanel.getPracownicyInfoPanel().setPracownikNr(pracownicyRowListener);
+            managerPanel.swapView("PRACOWNICY_INFO");
 
         }
+        public void setPracownicyRowListener(int num) { pracownicyRowListener= num; }
     }
 
     class InfoListener implements ActionListener {
@@ -184,6 +191,7 @@ public class Listeners {
     public void setPracownicyRowClicked(int num) {
         pracownicyRowClicked= num;
     infoListener.setPracownicyRowListener(num);
+        zmodyfikujListener.setPracownicyRowListener(num);
     }
 
 }
