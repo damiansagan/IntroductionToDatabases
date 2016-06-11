@@ -26,4 +26,13 @@ public class PracownicyData {
         return null;
     }
 
+    public PracownikDTO getExactPracownik(int num) {
+        try {
+            return dao.readSelectedPracownik(num);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

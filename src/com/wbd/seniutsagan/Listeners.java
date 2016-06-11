@@ -67,6 +67,12 @@ public class Listeners {
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
+            listeners = managerPanel.getManagerPanelListeners();
+            pracownicyPanel = new PracownicyPanel(listeners);
+
+            managerPanel.getPracownicyPanel().remove(managerPanel.getPracownicyPanel());
+            managerPanel.getContainerPanel().add(pracownicyPanel, "PRACOWNICY");
+
             managerPanel.swapView("PRACOWNICY");
 
             PracownicyDAO pracownicyDAO = new SQLPracownikDAO();
@@ -155,7 +161,7 @@ public class Listeners {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
 
-            ModifyPracownikDataPanel pracownikDataPanel = new ModifyPracownikDataPanel(pracownicyRowListener);
+            ModifyPracownikDataPanel pracownikDataPanel = new ModifyPracownikDataPanel(pracownicyRowListener, managerPanel);
             managerPanel.getContainerPanel().add(pracownikDataPanel, "PRACOWNICY_MODIFY");
             //managerPanel.getPracownicyInfoPanel().setPracownikNr(pracownicyRowListener);
             managerPanel.swapView("PRACOWNICY_MODIFY");

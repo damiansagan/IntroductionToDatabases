@@ -71,6 +71,15 @@ public class ManagerPanel extends JPanel implements ActionListener {
         return container;
     }
 
+    public PracownicyPanel getPracownicyPanel()
+    {
+        return pracownicyPanel;
+    }
+    public void updatePracownicyPanel() {
+        pracownicyPanel.preparePracownicyData();
+
+    }
+
     public Listeners getManagerPanelListeners(){
         return listeners;
     }

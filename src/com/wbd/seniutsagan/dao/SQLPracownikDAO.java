@@ -5,7 +5,9 @@ import com.wbd.seniutsagan.dto.PracownikDTO;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by monika03 on 05.06.16.
@@ -192,15 +194,80 @@ public class SQLPracownikDAO implements PracownicyDAO {
     }
 
 
-//    @Override
-//    public PracownikDTO modifySelectedPracownik (int num, ) throws SQLException {
-//        PracownikDTO modifyPracownik = null;
-//        try (Connection connection = getDBConnection();
-//             Statement stmt = connection.createStatement()
-//        ) {
+    @Override
+    public void modifySelectedPracownik (int num,Map<String, String> modifyPracownikMap ) throws SQLException {
+       // PracownikDTO modifyPracownik = null;
+        StringBuilder queryBuilder = new StringBuilder();
+        int hSize = modifyPracownikMap.size();
+
+
+        String queryString ="update Pracownicy set " ;
+        queryBuilder.append(queryString);
+        Iterator it = modifyPracownikMap.entrySet().iterator();
+        int i = 0;
+        while (it.hasNext()) {
+            i++;
+            Map.Entry pair = (Map.Entry)it.next();
+            if(pair.getValue().equals("")){
+                System.out.println(pair.getKey() + " = empty" );
+            }
+            else {
+                Object key = pair.getKey();
+                Object value = pair.getValue();
+
+                    if (key.toString().equals("stanowisko")) {
+                        if ((i != hSize )&&(i!=1)) {
+                        queryBuilder.append(",");
+                        }
+                        queryBuilder.append("STANOWISKO='" + value +"'");
+
+                    } else if (key.toString().equals("imie")) {
+                        if ((i != hSize )&&(i!=1)) {
+                            queryBuilder.append(",");
+                        }
+                            queryBuilder.append("IMIE='" + value + "'");
+                    } else if (key.toString().equals("nazwisko")) {
+                        if ((i != hSize )&&(i!=1)) {
+                            queryBuilder.append(",");
+                        }
+                            queryBuilder.append("NAZWISKO='" + value +"'");
+
+                    } else if (key.toString().equals("data")) {
+                        if ((i != hSize )&&(i!=1)) {
+                            queryBuilder.append(",");
+                        }
+                        queryBuilder.append("DATA_URODZENIA=TO_DATE('" + value + "','YYYY-MM-DD') ");
+
+                    } else if (key.toString().equals("pesel")) {
+                        if ((i != hSize )&&(i!=1)) {
+                            queryBuilder.append(",");
+                        }
+                            queryBuilder.append("PESEL='" + value+"'");
+
+                    } else if (key.toString().equals("nrKonta")) {
+                        if ((i != hSize )&&(i!=1)) {
+                            queryBuilder.append(",");
+                        }
+                        queryBuilder.append("NR_KONTA='" + value+"'");
+                    }
+
+                    System.out.println(pair.getKey() + " = " + pair.getValue());
+                    it.remove(); // avoids a ConcurrentModificationException
+                }
+
+
+        }
+
+        queryBuilder.append(" where ID_PRACOWNIK="+num);
+        String finalQuery = queryBuilder.toString();
+        System.out.println(finalQuery);
+
+        try (Connection connection = getDBConnection();
+             Statement stmt = connection.createStatement()
+        ) {
 //
 //
-//            ResultSet rs = stmt.executeQuery("select * from Pracownicy where ID_PRACOWNIK ="+num );
+    stmt.executeQuery(finalQuery );
 //            while (rs.next()) {
 //                PracownikDTO pracownik = new PracownikDTO(num);
 //                pracownik.setStanowisko(rs.getString("STANOWISKO"));
@@ -212,20 +279,20 @@ public class SQLPracownikDAO implements PracownicyDAO {
 //                pracownik.setKawiarniaId(rs.getInt("ID_KAWIARNIA"));
 //                pracownik.setLokalId(rs.getInt("ID_LOKAL"));
 //
-//                resultPracownik=pracownik;
+//               // resultPracownik=pracownik;
 //            }
 //
 //
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return resultPracownik;
-//
-//
-//    }
-//
-//
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+      //  return resultPracownik;
+
+
+    }
+
+
 
 
 

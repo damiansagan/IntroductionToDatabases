@@ -39,6 +39,7 @@ public class PracownicyPanel extends JPanel {
 //        add(scrollPane, BorderLayout.CENTER);
 //    }
     public PracownicyPanel(Listeners passedListeners) {
+
         setLayout(new BorderLayout());
         createPracownicyTable();
         preparePracownicyData();
@@ -149,7 +150,7 @@ public class PracownicyPanel extends JPanel {
         revalidate();
     }
 
-    private void preparePracownicyData() {
+    public void preparePracownicyData() {
         pracownicyList = Singleton.updatePracownik();
     }
 

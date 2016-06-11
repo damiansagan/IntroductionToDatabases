@@ -20,6 +20,7 @@ public class Singleton {
     private PracownicyData pracownicyData;
     private List<PozycjaMenuDTO> pozycjaMenuDTOList;
     private List<PracownikDTO> pracownikDTOList;
+    private List<PracownikDTO> pracownikDTO;
 
     private Singleton() {
         menuService = new MenuService(new SQLMenuDAO());
@@ -36,6 +37,11 @@ public class Singleton {
         Singleton s = Singleton.getInstance();
         return s.pracownikDTOList = s.pracownicyData.getPracownik();
     }
+
+//    public static PracownikDTO updateExactPracownik(int num){
+//        Singleton s = Singleton.getInstance();
+//        return s.pracownikDTO = s.pracownicyData.getExactPracownik(num);
+//    }
 
     public static List<PozycjaMenuDTO> getPozycjeMenu() {
         return Singleton.getInstance().pozycjaMenuDTOList;

@@ -5,6 +5,7 @@ import com.wbd.seniutsagan.dto.PracownikDTO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by monika03 on 05.06.16.
@@ -23,4 +24,8 @@ public interface PracownicyDAO {
     ResultSet resultSetMainPracownik() throws SQLException;
 
     String[] headings(ResultSet pracownicyResultSet);
+
+    void modifySelectedPracownik (int num, Map<String, String> modifyPracownikMap) throws SQLException;
+
+
 }

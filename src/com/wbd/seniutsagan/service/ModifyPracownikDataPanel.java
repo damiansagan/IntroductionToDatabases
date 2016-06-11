@@ -4,6 +4,7 @@ import com.wbd.seniutsagan.Listeners;
 import com.wbd.seniutsagan.dao.PracownicyDAO;
 import com.wbd.seniutsagan.dao.SQLPracownikDAO;
 import com.wbd.seniutsagan.dto.PracownikDTO;
+import com.wbd.seniutsagan.main.Singleton;
 
 
 import javax.swing.*;
@@ -32,11 +33,13 @@ public class ModifyPracownikDataPanel extends JPanel {
     private PracownicyPanel pracownicyPanel;
     private ConfirmButtonListener confirmButtonListener;
     private Map<String, String> collectPracownikData = new HashMap<String, String>();
+    private ManagerPanel managerPanel;
 
 
-    public ModifyPracownikDataPanel(int row) {
+    public ModifyPracownikDataPanel(int row, ManagerPanel managerPanel) {
 
         pracownikNr = row;
+        this.managerPanel = managerPanel;
         System.out.println("Wybrałeś pracownika o numerze = " +pracownikNr);
         gbcLayout = new GridBagLayout();
         setLayout(gbcLayout);
@@ -125,7 +128,7 @@ public class ModifyPracownikDataPanel extends JPanel {
         gbc.fill = GridBagConstraints.NONE;      //reset to default
         gbc.weightx = 0.0; //reset to default
         JButton confirmBtn = new JButton("Confirm");
-        confirmButtonListener = new ConfirmButtonListener(pracownikNr, this);
+        confirmButtonListener = new ConfirmButtonListener(pracownikNr, managerPanel,this);
         confirmBtn.addActionListener(confirmButtonListener);
 
         this.add(confirmBtn,gbc);
@@ -435,50 +438,64 @@ public class ModifyPracownikDataPanel extends JPanel {
 class ConfirmButtonListener implements ActionListener {
     private int pracownicyRowListener;
     private PracownikDTO pracownikDTO;
+    private List<PracownikDTO> pracownicyList ;
     private PracownicyDAO pracownicyDAO = new SQLPracownikDAO();
     private Map<String, String> modifyPraciwnikDataMap = new HashMap<String, String>();
+    private ManagerPanel managerPanel;
     private ModifyPracownikDataPanel modifyPracownikDataPanel;
 
-    ConfirmButtonListener(int pracownikNr, ModifyPracownikDataPanel nmodifyPracownikDataPanel) {
+    ConfirmButtonListener(int pracownikNr, ManagerPanel managerPanel, ModifyPracownikDataPanel modifyPracownikDataPanel) {
         super();
         pracownicyRowListener = pracownikNr;
-        modifyPracownikDataPanel = nmodifyPracownikDataPanel;
+        this.managerPanel = managerPanel;
+        this.modifyPracownikDataPanel = modifyPracownikDataPanel;
         // wywolac impemenracje modifypracownikdatamap
 
     }
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
-            modifyPracownikData(pracownicyRowListener);
+
         modifyPraciwnikDataMap = modifyPracownikDataPanel.getPracownikDataMap();
-        Iterator it = modifyPraciwnikDataMap.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            if(pair.getValue().equals("")){
-                System.out.println(pair.getKey() + " = empty" );
-            }
-            else {
-                System.out.println(pair.getKey() + " = " + pair.getValue());
-                it.remove(); // avoids a ConcurrentModificationException
-            }
-        }
+//        Iterator it = modifyPraciwnikDataMap.entrySet().iterator();
+//        while (it.hasNext()) {
+//            Map.Entry pair = (Map.Entry)it.next();
+//            if(pair.getValue().equals("")){
+//                System.out.println(pair.getKey() + " = empty" );
+//            }
+//            else {
+//                System.out.println(pair.getKey() + " = " + pair.getValue());
+//                it.remove(); // avoids a ConcurrentModificationException
+//            }
+            modifyPracownikData(pracownicyRowListener, modifyPraciwnikDataMap, managerPanel);
+
+      //  }
 
 
 
     }
     public void setPracownicyRowListener(int num) { pracownicyRowListener= num; }
 
-    private void modifyPracownikData(int pracownikNr){
+    private void modifyPracownikData(int pracownikNr, Map<String, String> pracownikModifyMap, ManagerPanel managerPanel){
         try {
             // zwraca result w postaci ArrayList
             //pracownicyList = pracownicyDAO.readAllPracownik();
             System.out.println("Jestem w confirm button listenerze.");
-            pracownikDTO = pracownicyDAO.readSelectedPracownik(pracownikNr);
-            System.out.println(pracownikDTO.toString());
+            pracownicyDAO.modifySelectedPracownik(pracownikNr, pracownikModifyMap);
+            //pracownikDTO = pracownicyDAO;
+            preparePracownicyData();
+            managerPanel.getPracownicyPanel().remove(managerPanel.getPracownicyPanel());
+            managerPanel.getContainerPanel().add(new PracownicyPanel(managerPanel.getManagerPanelListeners()), "PRACOWNICY");
+            managerPanel.swapView("PRACOWNICY");
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
     }
+    private void preparePracownicyData() {
+        pracownicyList = Singleton.updatePracownik();
+    }
+
 }
 
