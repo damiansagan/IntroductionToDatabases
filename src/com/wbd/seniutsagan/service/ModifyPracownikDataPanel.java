@@ -440,7 +440,7 @@ class ConfirmButtonListener implements ActionListener {
     private PracownikDTO pracownikDTO;
     private List<PracownikDTO> pracownicyList ;
     private PracownicyDAO pracownicyDAO = new SQLPracownikDAO();
-    private Map<String, String> modifyPraciwnikDataMap = new HashMap<String, String>();
+    private Map<String, String> modifyPracownikDataMap = new HashMap<String, String>();
     private ManagerPanel managerPanel;
     private ModifyPracownikDataPanel modifyPracownikDataPanel;
 
@@ -456,37 +456,30 @@ class ConfirmButtonListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
 
-        modifyPraciwnikDataMap = modifyPracownikDataPanel.getPracownikDataMap();
-//        Iterator it = modifyPraciwnikDataMap.entrySet().iterator();
-//        while (it.hasNext()) {
-//            Map.Entry pair = (Map.Entry)it.next();
-//            if(pair.getValue().equals("")){
-//                System.out.println(pair.getKey() + " = empty" );
-//            }
-//            else {
-//                System.out.println(pair.getKey() + " = " + pair.getValue());
-//                it.remove(); // avoids a ConcurrentModificationException
-//            }
-            modifyPracownikData(pracownicyRowListener, modifyPraciwnikDataMap, managerPanel);
-
-      //  }
-
-
+        modifyPracownikDataMap = modifyPracownikDataPanel.getPracownikDataMap();
+        modifyPracownikData(pracownicyRowListener, modifyPracownikDataMap, managerPanel);
 
     }
     public void setPracownicyRowListener(int num) { pracownicyRowListener= num; }
 
     private void modifyPracownikData(int pracownikNr, Map<String, String> pracownikModifyMap, ManagerPanel managerPanel){
         try {
-            // zwraca result w postaci ArrayList
-            //pracownicyList = pracownicyDAO.readAllPracownik();
             System.out.println("Jestem w confirm button listenerze.");
             pracownicyDAO.modifySelectedPracownik(pracownikNr, pracownikModifyMap);
-            //pracownikDTO = pracownicyDAO;
-            preparePracownicyData();
-            managerPanel.getPracownicyPanel().remove(managerPanel.getPracownicyPanel());
-            managerPanel.getContainerPanel().add(new PracownicyPanel(managerPanel.getManagerPanelListeners()), "PRACOWNICY");
-            managerPanel.swapView("PRACOWNICY");
+
+            // wyswietla pracownicyInfoPanel
+            if(managerPanel.getPracownicyInfoPanel()!=null) {
+                managerPanel.getPracownicyInfoPanel().remove(managerPanel.getPracownicyInfoPanel());
+            }
+            PracownicyInfoPanel pracownicyInfoPanel = new PracownicyInfoPanel(pracownicyRowListener);
+            managerPanel.getContainerPanel().add(pracownicyInfoPanel, "PRACOWNICY_INFO");
+            managerPanel.swapView("PRACOWNICY_INFO");
+
+            // zamiast pracownicyInfoPanel moze wyswietlic PracownicyPanel
+            //  preparePracownicyData();
+//            managerPanel.getPracownicyPanel().remove(managerPanel.getPracownicyPanel());
+//            managerPanel.getContainerPanel().add(new PracownicyPanel(managerPanel.getManagerPanelListeners()), "PRACOWNICY");
+//            managerPanel.swapView("PRACOWNICY");
 
         } catch (SQLException e) {
             e.printStackTrace();

@@ -112,8 +112,6 @@ public class SQLPracownikDAO implements PracownicyDAO {
         try (Connection connection = getDBConnection();
              Statement stmt = connection.createStatement()
         ) {
-
-
             rs1 = query("select ID_PRACOWNIK, STANOWISKO, IMIE, NAZWISKO from Pracownicy order by ID_PRACOWNIK");
 
         } catch (SQLException e) {
@@ -122,8 +120,6 @@ public class SQLPracownikDAO implements PracownicyDAO {
 
         return rs1;
     }
-
-
 
 
     @Override
@@ -206,53 +202,55 @@ public class SQLPracownikDAO implements PracownicyDAO {
         Iterator it = modifyPracownikMap.entrySet().iterator();
         int i = 0;
         while (it.hasNext()) {
-            i++;
+
+            System.out.println("i = " + i);
             Map.Entry pair = (Map.Entry)it.next();
             if(pair.getValue().equals("")){
                 System.out.println(pair.getKey() + " = empty" );
             }
             else {
+                i++;
                 Object key = pair.getKey();
                 Object value = pair.getValue();
 
                     if (key.toString().equals("stanowisko")) {
-                        if ((i != hSize )&&(i!=1)) {
+                        if ((i!=1)) {
                         queryBuilder.append(",");
                         }
                         queryBuilder.append("STANOWISKO='" + value +"'");
 
                     } else if (key.toString().equals("imie")) {
-                        if ((i != hSize )&&(i!=1)) {
+                        if ((i!=1)) {
                             queryBuilder.append(",");
                         }
                             queryBuilder.append("IMIE='" + value + "'");
                     } else if (key.toString().equals("nazwisko")) {
-                        if ((i != hSize )&&(i!=1)) {
+                        if ((i!=1)) {
                             queryBuilder.append(",");
                         }
                             queryBuilder.append("NAZWISKO='" + value +"'");
 
                     } else if (key.toString().equals("data")) {
-                        if ((i != hSize )&&(i!=1)) {
+                        if ((i!=1)) {
                             queryBuilder.append(",");
                         }
                         queryBuilder.append("DATA_URODZENIA=TO_DATE('" + value + "','YYYY-MM-DD') ");
 
                     } else if (key.toString().equals("pesel")) {
-                        if ((i != hSize )&&(i!=1)) {
+                        if ((i!=1)) {
                             queryBuilder.append(",");
                         }
                             queryBuilder.append("PESEL='" + value+"'");
 
                     } else if (key.toString().equals("nrKonta")) {
-                        if ((i != hSize )&&(i!=1)) {
+                        if ((i!=1)) {
                             queryBuilder.append(",");
                         }
                         queryBuilder.append("NR_KONTA='" + value+"'");
                     }
 
                     System.out.println(pair.getKey() + " = " + pair.getValue());
-                    it.remove(); // avoids a ConcurrentModificationException
+                  //  it.remove(); // avoids a ConcurrentModificationException
                 }
 
 
