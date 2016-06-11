@@ -155,10 +155,10 @@ public class Listeners {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
 
-          ModifyPracownikDataPanel pracownikDataPanel = new ModifyPracownikDataPanel(pracownicyRowListener);
-            managerPanel.getContainerPanel().add(pracownikDataPanel, "PRACOWNICY_INFO");
+            ModifyPracownikDataPanel pracownikDataPanel = new ModifyPracownikDataPanel(pracownicyRowListener);
+            managerPanel.getContainerPanel().add(pracownikDataPanel, "PRACOWNICY_MODIFY");
             //managerPanel.getPracownicyInfoPanel().setPracownikNr(pracownicyRowListener);
-            managerPanel.swapView("PRACOWNICY_INFO");
+            managerPanel.swapView("PRACOWNICY_MODIFY");
 
         }
         public void setPracownicyRowListener(int num) { pracownicyRowListener= num; }

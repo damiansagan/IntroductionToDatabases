@@ -101,6 +101,7 @@ public class PracownicyInfoPanel extends JPanel {
         pracownicyTable.setModel(tableModel);
         pracownicyTable.setRowSelectionAllowed(true);
         pracownicyTable.setColumnSelectionAllowed(false);
+        // tutaj mouse listener nie jest potrzebny, jeśli chcemy tylko przejrzeć info
         pracownicyTable.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {

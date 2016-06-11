@@ -4,22 +4,15 @@ import com.wbd.seniutsagan.Listeners;
 import com.wbd.seniutsagan.dao.PracownicyDAO;
 import com.wbd.seniutsagan.dao.SQLPracownikDAO;
 import com.wbd.seniutsagan.dto.PracownikDTO;
-import com.wbd.seniutsagan.main.Singleton;
+
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
-import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * Created by monika03 on 09.06.16.
@@ -109,6 +102,7 @@ public class ModifyPracownikDataPanel extends JPanel {
         gbc.fill = GridBagConstraints.NONE;      //reset to default
         gbc.weightx = 0.0; //reset to default
         JButton confirmBtn = new JButton("Confirm");
+
         this.add(confirmBtn,gbc);
 
     }
@@ -279,6 +273,12 @@ public class ModifyPracownikDataPanel extends JPanel {
         public boolean verifyPESEL(JComponent input, int countChars) {
 
             String text = ((JTextField) input).getText().trim();
+            int number = text.length();
+            if (number == 0 ){
+                System.out.println("Pusty string");
+                return true;
+
+            }
             return isEqualNumbers(text, countChars);
 
         }
@@ -286,14 +286,19 @@ public class ModifyPracownikDataPanel extends JPanel {
         public boolean verifyBankAccount(JComponent input, int countChars) {
 
             String text = ((JTextField) input).getText().trim();
+            int number = text.length();
+            if (number == 0 ){
+                System.out.println("Pusty string");
+                return true;
+
+            }
             return isEqualNumbers(text, countChars);
 
         }
 
-
         public boolean isAllLetters(String name, int limitChars) {
             int number = name.length();
-            if (number == 0 ){
+        if (number == 0 ){
                 System.out.println("Pusty string");
                 return true;
 
@@ -341,10 +346,17 @@ public class ModifyPracownikDataPanel extends JPanel {
 
 
         private boolean isValidDate(String dateString) {
+            int number = dateString.length();
+            if (number == 0 ){
+                System.out.println("Pusty string");
+                return true;
+
+            }
             Date date = null;
             try {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 date = sdf.parse(dateString);
+
                 // return true;
                 if (!dateString.equals(sdf.format(date))) {
                     JOptionPane.showMessageDialog(null, "Please the correct letter!","Computerized Automatic Teller Machine", 1);
@@ -363,14 +375,21 @@ public class ModifyPracownikDataPanel extends JPanel {
         }
     }
 
-//    public class Varchar20Verifier extends InputVerifier {
-//        @Override
-//        public boolean verify(JComponent input) {
-//            String text = ((JTextField) input).getText().trim();
-//            if (text.isEmpty()) return false;
-//            if (text.matches(".*\\d.*")) return false;
+//class ZmodyfikujListener implements ActionListener {
+//    private int pracownicyRowListener;
+//    ZmodyfikujListener() {
+//        super();
+//    }
 //
-//            return true;
-//        }
-
+//    @Override
+//    public void actionPerformed(ActionEvent actionEvent) {
+//
+//        ModifyPracownikDataPanel pracownikDataPanel = new ModifyPracownikDataPanel(pracownicyRowListener);
+//        managerPanel.getContainerPanel().add(pracownikDataPanel, "PRACOWNICY_MODIFY");
+//        //managerPanel.getPracownicyInfoPanel().setPracownikNr(pracownicyRowListener);
+//        managerPanel.swapView("PRACOWNICY_MODIFY");
+//
+//    }
+//    public void setPracownicyRowListener(int num) { pracownicyRowListener= num; }
+//}
 
