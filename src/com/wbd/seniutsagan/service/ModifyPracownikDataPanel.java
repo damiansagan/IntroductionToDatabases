@@ -9,9 +9,10 @@ import com.wbd.seniutsagan.dto.PracownikDTO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
 
 /**
@@ -29,6 +30,8 @@ public class ModifyPracownikDataPanel extends JPanel {
     private GridBagLayout gbcLayout;
     private int pracownikNr;
     private PracownicyPanel pracownicyPanel;
+    private ConfirmButtonListener confirmButtonListener;
+    private Map<String, String> collectPracownikData = new HashMap<String, String>();
 
 
     public ModifyPracownikDataPanel(int row) {
@@ -39,14 +42,34 @@ public class ModifyPracownikDataPanel extends JPanel {
         setLayout(gbcLayout);
         gbc = new GridBagConstraints();
 
+
         createFieldsToFill();
     }
 
     private void createFieldsToFill() {
+
+        collectPracownikData.put("stanowisko","");
+        collectPracownikData.put("imie","");
+        collectPracownikData.put("nazwisko","");
+        collectPracownikData.put("data","");
+        collectPracownikData.put("pesel","");
+        collectPracownikData.put("nrKonta","");
+//        Iterator it = collectPracownikData.entrySet().iterator();
+//        while (it.hasNext()) {
+//            Map.Entry pair = (Map.Entry)it.next();
+//            if(pair.getValue().equals("")){
+//                System.out.println(pair.getKey() + " = empty" );
+//            }
+//            else {
+//                System.out.println(pair.getKey() + " = " + pair.getValue());
+//                it.remove(); // avoids a ConcurrentModificationException
+//            }
+//        }
         JLabel stanowiskoLabel = new JLabel("Stanowisko: ");
         JTextField stanowiskoTextField = new JTextField(20);
         stanowiskoTextField.setName("stanowiskoTextField");
-        stanowiskoTextField.addFocusListener(new TextFieldsFocusListener(stanowiskoTextField));
+        stanowiskoTextField.addFocusListener(new TextFieldsFocusListener(stanowiskoTextField, collectPracownikData));
+
 
 
        // stanowiskoTextField.setSize(200, 24);
@@ -64,7 +87,7 @@ public class ModifyPracownikDataPanel extends JPanel {
         JTextField imieTextField = new JTextField(20);
         imieLabel.setLabelFor(imieTextField);
         imieTextField.setName("imieTextField");
-        imieTextField.addFocusListener(new TextFieldsFocusListener(imieTextField));
+        imieTextField.addFocusListener(new TextFieldsFocusListener(imieTextField, collectPracownikData));
 
 
 
@@ -72,26 +95,26 @@ public class ModifyPracownikDataPanel extends JPanel {
         JTextField nazwiskoTextField = new JTextField(30);
         nazwiskoLabel.setLabelFor(nazwiskoTextField);
         nazwiskoTextField.setName("nazwiskoTextField");
-        nazwiskoTextField.addFocusListener(new TextFieldsFocusListener(nazwiskoTextField));
+        nazwiskoTextField.addFocusListener(new TextFieldsFocusListener(nazwiskoTextField, collectPracownikData));
 
 
         JLabel dataLabel = new JLabel("Data urodzenia: ");
         JTextField dataTextField = new JTextField(20);
         dataTextField.setName("dataTextField");
         dataLabel.setLabelFor(dataTextField);
-        dataTextField.addFocusListener(new TextFieldsFocusListener(dataTextField));
+        dataTextField.addFocusListener(new TextFieldsFocusListener(dataTextField, collectPracownikData));
 
         JLabel peselLabel = new JLabel("PESEL: ");
         JTextField peselTextField = new JTextField(20);
         peselTextField.setName("peselTextField");
         peselLabel.setLabelFor(peselTextField);
-        peselTextField.addFocusListener(new TextFieldsFocusListener(peselTextField));
+        peselTextField.addFocusListener(new TextFieldsFocusListener(peselTextField, collectPracownikData));
 
         JLabel nrKontaLabel = new JLabel("Nr konta: ");
         JTextField nrKontaTextField = new JTextField(20);
         nrKontaTextField.setName("nrKontaTextField");
         nrKontaLabel.setLabelFor(nrKontaTextField);
-        nrKontaTextField.addFocusListener(new TextFieldsFocusListener(nrKontaTextField));
+        nrKontaTextField.addFocusListener(new TextFieldsFocusListener(nrKontaTextField, collectPracownikData));
 
         JLabel[] labels = {stanowiskoLabel,imieLabel,nazwiskoLabel,dataLabel,peselLabel,nrKontaLabel};
         JTextField[] textFields = {stanowiskoTextField,imieTextField,nazwiskoTextField,dataTextField,peselTextField,nrKontaTextField};
@@ -102,6 +125,8 @@ public class ModifyPracownikDataPanel extends JPanel {
         gbc.fill = GridBagConstraints.NONE;      //reset to default
         gbc.weightx = 0.0; //reset to default
         JButton confirmBtn = new JButton("Confirm");
+        confirmButtonListener = new ConfirmButtonListener(pracownikNr, this);
+        confirmBtn.addActionListener(confirmButtonListener);
 
         this.add(confirmBtn,gbc);
 
@@ -169,15 +194,19 @@ public class ModifyPracownikDataPanel extends JPanel {
     }
 
 
-
+    public Map<String,String> getPracownikDataMap() {
+        return collectPracownikData;
+    }
 }
 
     class TextFieldsFocusListener implements FocusListener {
         private JTextField textField;
+        private Map<String, String> pracownikDataMap;
 
-        TextFieldsFocusListener(JTextField textfield) {
+        TextFieldsFocusListener(JTextField textfield, Map<String, String> npracownikDataMap) {
             super();
             textField = textfield;
+            pracownikDataMap = npracownikDataMap;
         }
 
         @Override
@@ -194,6 +223,11 @@ public class ModifyPracownikDataPanel extends JPanel {
             {
                 boolean prawdziwe = verify(textField, 20);
                 System.out.println("czy poprawnie wpisane stanowisko: " + prawdziwe);
+                if(prawdziwe) {
+                    pracownikDataMap.replace("stanowisko", textField.getText().trim());
+                }
+                //System.out.println("odebrane= " + pracownikDataMap.get("stanowisko"));
+
                 if (!prawdziwe ){
                     JOptionPane.showMessageDialog(null, "Proszę podać poprawną nazwę stanowiska!");
 
@@ -206,6 +240,9 @@ public class ModifyPracownikDataPanel extends JPanel {
             {
                 boolean prawdziwe = verify(textField, 20);
                 System.out.println("czy poprawnie wpisane imię: " + prawdziwe);
+                if(prawdziwe) {
+                    pracownikDataMap.replace("imie", textField.getText().trim());
+                }
                 if (!prawdziwe ){
                     JOptionPane.showMessageDialog(null, "Proszę podać poprawne imię!");
 
@@ -218,6 +255,9 @@ public class ModifyPracownikDataPanel extends JPanel {
             {
                 boolean prawdziwe = verify(textField, 30);
                 System.out.println("czy poprawnie wpisane nazwisko: " + prawdziwe);
+                if(prawdziwe) {
+                    pracownikDataMap.replace("nazwisko", textField.getText().trim());
+                }
                 if (!prawdziwe ){
                     JOptionPane.showMessageDialog(null, "Proszę podać poprawne nazwisko(max 30 znaków)!");
                 }
@@ -228,6 +268,9 @@ public class ModifyPracownikDataPanel extends JPanel {
             {
                 boolean prawdziwe = verifyPESEL(textField, 11);
                 System.out.println("czy poprawnie wpisany pesel " + prawdziwe);
+                if(prawdziwe) {
+                    pracownikDataMap.replace("pesel", textField.getText().trim());
+                }
                 if (!prawdziwe){
                     JOptionPane.showMessageDialog(null, "Proszę podać poprawny numer PESEL (11 znaków)");
                 }
@@ -237,6 +280,9 @@ public class ModifyPracownikDataPanel extends JPanel {
 
             {
                 boolean prawdziwe = verifyBankAccount(textField, 26);
+                if(prawdziwe) {
+                    pracownikDataMap.replace("nrKonta", textField.getText().trim());
+                }
                 System.out.println("czy poprawnie wpisany ne konta " + prawdziwe);
                 if (!prawdziwe){
                     JOptionPane.showMessageDialog(null, "Proszę podać poprawny nr Konta (26 znaków)");
@@ -247,6 +293,9 @@ public class ModifyPracownikDataPanel extends JPanel {
 
             {
                 boolean prawdziwe = isValidDate(textField.getText().trim());
+                if(prawdziwe) {
+                    pracownikDataMap.replace("data", textField.getText().trim());
+                }
                 System.out.println("czy poprawnie wpisana data " + prawdziwe);
 //                if (!prawdziwe){
 //                    JOptionPane.showMessageDialog(null, "Proszę podać poprawną datę (yyyy-mm-dd)!");
@@ -373,23 +422,63 @@ public class ModifyPracownikDataPanel extends JPanel {
 
 
         }
+
+        public Map<String, String> getPracownikDataMap(){
+            return pracownikDataMap;
+        }
+        public void setPracownikDataMap(Map<String, String> npracownikDataMap){
+            pracownikDataMap = npracownikDataMap;
+        }
+
     }
 
-//class ZmodyfikujListener implements ActionListener {
-//    private int pracownicyRowListener;
-//    ZmodyfikujListener() {
-//        super();
-//    }
-//
-//    @Override
-//    public void actionPerformed(ActionEvent actionEvent) {
-//
-//        ModifyPracownikDataPanel pracownikDataPanel = new ModifyPracownikDataPanel(pracownicyRowListener);
-//        managerPanel.getContainerPanel().add(pracownikDataPanel, "PRACOWNICY_MODIFY");
-//        //managerPanel.getPracownicyInfoPanel().setPracownikNr(pracownicyRowListener);
-//        managerPanel.swapView("PRACOWNICY_MODIFY");
-//
-//    }
-//    public void setPracownicyRowListener(int num) { pracownicyRowListener= num; }
-//}
+class ConfirmButtonListener implements ActionListener {
+    private int pracownicyRowListener;
+    private PracownikDTO pracownikDTO;
+    private PracownicyDAO pracownicyDAO = new SQLPracownikDAO();
+    private Map<String, String> modifyPraciwnikDataMap = new HashMap<String, String>();
+    private ModifyPracownikDataPanel modifyPracownikDataPanel;
+
+    ConfirmButtonListener(int pracownikNr, ModifyPracownikDataPanel nmodifyPracownikDataPanel) {
+        super();
+        pracownicyRowListener = pracownikNr;
+        modifyPracownikDataPanel = nmodifyPracownikDataPanel;
+        // wywolac impemenracje modifypracownikdatamap
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+            modifyPracownikData(pracownicyRowListener);
+        modifyPraciwnikDataMap = modifyPracownikDataPanel.getPracownikDataMap();
+        Iterator it = modifyPraciwnikDataMap.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            if(pair.getValue().equals("")){
+                System.out.println(pair.getKey() + " = empty" );
+            }
+            else {
+                System.out.println(pair.getKey() + " = " + pair.getValue());
+                it.remove(); // avoids a ConcurrentModificationException
+            }
+        }
+
+
+
+    }
+    public void setPracownicyRowListener(int num) { pracownicyRowListener= num; }
+
+    private void modifyPracownikData(int pracownikNr){
+        try {
+            // zwraca result w postaci ArrayList
+            //pracownicyList = pracownicyDAO.readAllPracownik();
+            System.out.println("Jestem w confirm button listenerze.");
+            pracownikDTO = pracownicyDAO.readSelectedPracownik(pracownikNr);
+            System.out.println(pracownikDTO.toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+}
 
