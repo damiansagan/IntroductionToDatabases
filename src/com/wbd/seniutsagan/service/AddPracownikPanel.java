@@ -509,6 +509,7 @@ public class AddPracownikPanel extends JPanel {
                 if(managerPanel.getPracownicyPanel()!=null) {
                     managerPanel.getPracownicyPanel().remove(managerPanel.getPracownicyPanel());
                 }
+                preparePracownicyData();
                 PracownicyPanel pracownicyPanel = new PracownicyPanel(managerPanel.getManagerPanelListeners());
                 managerPanel.getContainerPanel().add(pracownicyPanel, "PRACOWNICY");
                 managerPanel.swapView("PRACOWNICY");

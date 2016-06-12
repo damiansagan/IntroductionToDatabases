@@ -107,9 +107,14 @@ public class PracownicyPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // getPoint +1, bo liczy od 0
-               row = pracownicyTable.rowAtPoint(e.getPoint()) + 1;
+                int selectedRowIndex =pracownicyTable.getSelectedRow();
+                int selectedColumnIndex = 0;
+                Object selectedObject = pracownicyTable.getModel().getValueAt(selectedRowIndex,selectedColumnIndex);
+                System.out.println("selecteeeed "+selectedObject);
+               row = (int)selectedObject;
                 System.out.println(row);
                 listeners.setPracownicyRowClicked(row);
+               // listeners.usunListener.setIdPracownik(row);
 
             }
 

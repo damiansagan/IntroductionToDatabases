@@ -30,4 +30,6 @@ public interface PracownicyDAO {
 
 
     void addPracownik(Map<String, String> addPracownikMap) throws SQLException;
+
+    void deletePracownik(int idPracownik);
 }

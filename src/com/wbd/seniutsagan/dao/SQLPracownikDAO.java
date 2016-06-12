@@ -12,6 +12,7 @@ import java.util.Map;
 /**
  * Created by monika03 on 05.06.16.
  */
+
 public class SQLPracownikDAO implements PracownicyDAO {
 
     private static final String DB_CONNECTION = "jdbc:oracle:thin:@ora3.elka.pw.edu.pl:1521:ora3inf";
@@ -376,6 +377,20 @@ public class SQLPracownikDAO implements PracownicyDAO {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void deletePracownik(int idPracownik) {
+        String finalQuery = "delete from Pracownicy where ID_PRACOWNIK="+idPracownik;
+        try (Connection connection = getDBConnection();
+             Statement stmt = connection.createStatement()
+        ) {
+
+            stmt.executeQuery(finalQuery );
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

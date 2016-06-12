@@ -3,6 +3,7 @@ package com.wbd.seniutsagan;
 import com.wbd.seniutsagan.dao.PracownicyDAO;
 import com.wbd.seniutsagan.dao.SQLPracownikDAO;
 import com.wbd.seniutsagan.dto.PracownikDTO;
+import com.wbd.seniutsagan.main.Singleton;
 import com.wbd.seniutsagan.service.*;
 
 import javax.swing.*;
@@ -42,6 +43,7 @@ public class Listeners {
         menuListener = new MenuListener();
         dodajListener = new DodajListener();
         infoListener = new InfoListener();
+        usunListener = new UsunListener();
 
     }
 
@@ -89,6 +91,8 @@ public class Listeners {
                 stringBuilder.append(p.toString1()).append('\n');
             System.out.println(stringBuilder.toString());
         }
+
+
     }
 
 
@@ -144,14 +148,39 @@ public class Listeners {
     }
 
     class UsunListener implements ActionListener {
+        private PracownicyDAO pracownicyDAO = new SQLPracownikDAO();
+        private int idPracownik;
+        private List<PracownikDTO> pracownicyList ;
+
+
         UsunListener() {
             super();
+
         }
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
 
+
+                System.out.println("Jestem w usun button listenerze.");
+                pracownicyDAO.deletePracownik(idPracownik);
+
+                // wyswietla pracownicyInfoPanel
+                if(managerPanel.getPracownicyPanel()!=null) {
+                    managerPanel.getPracownicyPanel().remove(managerPanel.getPracownicyPanel());
+                }
+                preparePracownicyData();
+                PracownicyPanel pracownicyPanel = new PracownicyPanel(managerPanel.getManagerPanelListeners());
+                managerPanel.getContainerPanel().add(pracownicyPanel, "PRACOWNICY");
+                managerPanel.swapView("PRACOWNICY");
+
         }
+        public void setIdPracownik(int num) { idPracownik= num; }
+        private void preparePracownicyData() {
+            pracownicyList = Singleton.updatePracownik();
+        }
+
+
     }
 
     class ZmodyfikujListener implements ActionListener {
@@ -200,6 +229,7 @@ public class Listeners {
         pracownicyRowClicked= num;
     infoListener.setPracownicyRowListener(num);
         zmodyfikujListener.setPracownicyRowListener(num);
+        usunListener.setIdPracownik(num);
     }
 
 }
