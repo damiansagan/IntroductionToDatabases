@@ -27,16 +27,16 @@ public class CustomerPanel extends JPanel implements ActionListener{
 
     private void createUpperPanel() {
         JButton orderButton = new JButton(buttonNames[0]);
-        JButton reservationButton = new JButton(buttonNames[1]);
+        //JButton reservationButton = new JButton(buttonNames[1]);
         JButton accountButton = new JButton(buttonNames[2]);
 
         orderButton.addActionListener(this);
-        reservationButton.addActionListener(this);
+        //reservationButton.addActionListener(this);
         accountButton.addActionListener(this);
 
         upperPanel = new JPanel();
         upperPanel.add(orderButton);
-        upperPanel.add(reservationButton);
+        //upperPanel.add(reservationButton);
         upperPanel.add(accountButton);
     }
 

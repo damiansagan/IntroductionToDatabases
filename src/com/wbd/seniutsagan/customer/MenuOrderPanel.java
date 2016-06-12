@@ -21,13 +21,12 @@ class MenuOrderPanel extends JPanel {
 
     MenuOrderPanel() {
         setLayout(new BorderLayout());
-        preparePozycjeMenuRodzajami();
-        createScrollPane();
-        add(scrollPane, BorderLayout.CENTER);
+        new Thread(() -> recreateScrollPane()).start();
+
         JButton orderButton = new JButton("Zarezerwuj");
-        orderButton.addActionListener(e -> processOrder());
+        orderButton.addActionListener(e -> new Thread(() -> processOrder()).start());
         JButton resetButton = new JButton("Wyczyść");
-        resetButton.addActionListener(e -> recreateScrollPane());
+        resetButton.addActionListener(e -> new Thread(() -> recreateScrollPane()).start());
         JPanel orderPanel = new JPanel();
         orderPanel.add(resetButton);
         orderPanel.add(orderButton);
@@ -57,9 +56,9 @@ class MenuOrderPanel extends JPanel {
         }
         if(Singleton.getZamowienieService().order(zamowienieDTO)){
             zamowienieDTO=new ZamowienieDTO(Singleton.getLoggedInCustomerID());
-            recreateScrollPane();
             JOptionPane.showMessageDialog(null, "Zamówienie zostało złożone.", "Dziękujemy!",
                     JOptionPane.INFORMATION_MESSAGE);
+            recreateScrollPane();
         }
         else
             JOptionPane.showMessageDialog(null, "Błąd. Zamówienie nie zostało złożone.", "UWAGA!",
@@ -67,7 +66,15 @@ class MenuOrderPanel extends JPanel {
     }
 
     private void recreateScrollPane() {
-        remove(scrollPane);
+        JLabel loadingLabel = new JLabel("Proszę czekać...");
+        loadingLabel.setHorizontalAlignment(JLabel.CENTER);
+        add(loadingLabel, BorderLayout.CENTER);
+        if(scrollPane!=null) remove(scrollPane);
+        revalidate();
+        preparePozycjeMenuRodzajami();
+        createScrollPane();
+        remove(loadingLabel);
+        add(scrollPane, BorderLayout.CENTER);
         createScrollPane();
         add(scrollPane, BorderLayout.CENTER);
         revalidate();
