@@ -3,6 +3,7 @@ package com.wbd.seniutsagan.main;
 
 import com.wbd.seniutsagan.dao.SQLMenuDAO;
 import com.wbd.seniutsagan.dao.SQLZamowienieDAO;
+import com.wbd.seniutsagan.dto.KlientDTO;
 import com.wbd.seniutsagan.dto.PozycjaMenuDTO;
 import com.wbd.seniutsagan.service.MenuService;
 import com.wbd.seniutsagan.service.ZamowienieService;
@@ -15,12 +16,12 @@ public class Singleton {
     private MenuService menuService;
     private ZamowienieService zamowienieService;
     private List<PozycjaMenuDTO> pozycjaMenuDTOList;
-    private Integer loggedInCustomerID;
+    private KlientDTO loggedInCustomer;
 
     private Singleton() {
         menuService = new MenuService(new SQLMenuDAO());
         zamowienieService = new ZamowienieService(new SQLZamowienieDAO());
-        loggedInCustomerID=1; //FOR TESTS ONLY!!!
+        loggedInCustomer = new KlientDTO(1); //FOR TESTS ONLY!!!
     }
 
     public static List<PozycjaMenuDTO> updateMenu(){
@@ -44,11 +45,11 @@ public class Singleton {
         return Singleton.getInstance().zamowienieService;
     }
 
-    public static Integer getLoggedInCustomerID() {
-        return Singleton.getInstance().loggedInCustomerID;
+    public static KlientDTO getLoggedInCustomer() {
+        return Singleton.getInstance().loggedInCustomer;
     }
 
-    public static void setLoggedInCustomerID(Integer customerID) {
-        Singleton.getInstance().loggedInCustomerID=customerID;
+    public static void setLoggedInCustomer(KlientDTO loggedInCustomer) {
+        Singleton.getInstance().loggedInCustomer = loggedInCustomer;
     }
 }

@@ -12,8 +12,8 @@ public class ZamowienieDTO {
     private Integer idRezerwacji;
     private Integer idPracownika;
 
-    public ZamowienieDTO(Integer idKlienta) {
-        this.idKlienta = idKlienta;
+    public ZamowienieDTO(KlientDTO klientDTO) {
+        this.idKlienta = klientDTO.getId();
     }
 
     public void addPozycjaMenu(PozycjaMenuDTO pozycjaMenu) {

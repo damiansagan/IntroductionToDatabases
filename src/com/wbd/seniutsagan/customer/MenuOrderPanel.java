@@ -17,13 +17,12 @@ class MenuOrderPanel extends JPanel {
     private Map<String,List<PozycjaMenuDTO>> pozycjeMenuRodzajami;
     private JScrollPane scrollPane;
     private JPanel scrollPanel;
-    private ZamowienieDTO zamowienieDTO = new ZamowienieDTO(Singleton.getLoggedInCustomerID());
+    private ZamowienieDTO zamowienieDTO = new ZamowienieDTO(Singleton.getLoggedInCustomer());
 
     MenuOrderPanel() {
         setLayout(new BorderLayout());
         new Thread(() -> recreateScrollPane()).start();
-
-        JButton orderButton = new JButton("Zarezerwuj");
+        JButton orderButton = new JButton("Złóż zamówienie");
         orderButton.addActionListener(e -> new Thread(() -> processOrder()).start());
         JButton resetButton = new JButton("Wyczyść");
         resetButton.addActionListener(e -> new Thread(() -> recreateScrollPane()).start());
@@ -55,7 +54,7 @@ class MenuOrderPanel extends JPanel {
             return;
         }
         if(Singleton.getZamowienieService().order(zamowienieDTO)){
-            zamowienieDTO=new ZamowienieDTO(Singleton.getLoggedInCustomerID());
+            zamowienieDTO=new ZamowienieDTO(Singleton.getLoggedInCustomer());
             JOptionPane.showMessageDialog(null, "Zamówienie zostało złożone.", "Dziękujemy!",
                     JOptionPane.INFORMATION_MESSAGE);
             recreateScrollPane();
