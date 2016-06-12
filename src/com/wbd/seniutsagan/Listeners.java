@@ -3,10 +3,7 @@ package com.wbd.seniutsagan;
 import com.wbd.seniutsagan.dao.PracownicyDAO;
 import com.wbd.seniutsagan.dao.SQLPracownikDAO;
 import com.wbd.seniutsagan.dto.PracownikDTO;
-import com.wbd.seniutsagan.service.ManagerPanel;
-import com.wbd.seniutsagan.service.ModifyPracownikDataPanel;
-import com.wbd.seniutsagan.service.PracownicyInfoPanel;
-import com.wbd.seniutsagan.service.PracownicyPanel;
+import com.wbd.seniutsagan.service.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -137,6 +134,11 @@ public class Listeners {
 
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
+
+            AddPracownikPanel addPracownikPanel = new AddPracownikPanel(managerPanel);
+            managerPanel.getContainerPanel().add(addPracownikPanel, "PRACOWNICY_ADD");
+            //managerPanel.getPracownicyInfoPanel().setPracownikNr(pracownicyRowListener);
+            managerPanel.swapView("PRACOWNICY_ADD");
 
         }
     }

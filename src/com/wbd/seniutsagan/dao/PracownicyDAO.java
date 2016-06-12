@@ -28,4 +28,6 @@ public interface PracownicyDAO {
     void modifySelectedPracownik (int num, Map<String, String> modifyPracownikMap) throws SQLException;
 
 
+
+    void addPracownik(Map<String, String> addPracownikMap) throws SQLException;
 }

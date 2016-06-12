@@ -192,10 +192,7 @@ public class SQLPracownikDAO implements PracownicyDAO {
 
     @Override
     public void modifySelectedPracownik (int num,Map<String, String> modifyPracownikMap ) throws SQLException {
-       // PracownikDTO modifyPracownik = null;
         StringBuilder queryBuilder = new StringBuilder();
-        int hSize = modifyPracownikMap.size();
-
 
         String queryString ="update Pracownicy set " ;
         queryBuilder.append(queryString);
@@ -263,35 +260,122 @@ public class SQLPracownikDAO implements PracownicyDAO {
         try (Connection connection = getDBConnection();
              Statement stmt = connection.createStatement()
         ) {
-//
-//
-    stmt.executeQuery(finalQuery );
-//            while (rs.next()) {
-//                PracownikDTO pracownik = new PracownikDTO(num);
-//                pracownik.setStanowisko(rs.getString("STANOWISKO"));
-//                pracownik.setImie(rs.getString("IMIE"));
-//                pracownik.setNazwisko(rs.getString("NAZWISKO"));
-//                pracownik.setDataUrodzenia(rs.getDate("DATA_URODZENIA"));
-//                pracownik.setPESEL(rs.getString("PESEL"));
-//                pracownik.setNrKonta(rs.getString("NR_KONTA"));
-//                pracownik.setKawiarniaId(rs.getInt("ID_KAWIARNIA"));
-//                pracownik.setLokalId(rs.getInt("ID_LOKAL"));
-//
-//               // resultPracownik=pracownik;
-//            }
-//
-//
+
+             stmt.executeQuery(finalQuery );
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-      //  return resultPracownik;
-
-
     }
 
 
+    @Override
+    public void addPracownik (Map<String, String> addPracownikMap ) throws SQLException {
+        StringBuilder queryBuilder = new StringBuilder();
+
+        String queryString ="INSERT INTO PRACOWNICY (STANOWISKO, IMIE, NAZWISKO, DATA_URODZENIA, PESEL, NR_KONTA,ID_KAWIARNIA,ID_LOKAL) VALUES(" ;
+        queryBuilder.append(queryString);
+        System.out.println("Otrzymany zbior: " +addPracownikMap.toString());
+        Iterator it = addPracownikMap.entrySet().iterator();
+        int i = 0;
+        while (it.hasNext()) {
+
+            System.out.println("i = " + i);
+            Map.Entry pair = (Map.Entry)it.next();
+//            if(pair.getValue().equals("")){
+//                System.out.println(pair.getKey() + " = empty" );
+//                System.out.println("error!!!");
+//            }
+//            else {
+                i++;
+                Object key = pair.getKey();
+                Object value = pair.getValue();
+
+                if (key.toString().equals("stanowisko")) {
+                    System.out.println("wchodze do stanowisko ");
+                    if ((i!=1)) {
+                        queryBuilder.append(",");
+                    }
+                    queryBuilder.append("'" + value +"'");
+
+                } else if (key.toString().equals("imie")) {
+                    System.out.println("wchodze do imie ");
+
+                    if ((i!=1)) {
+                        queryBuilder.append(",");
+                    }
+                    queryBuilder.append("'" + value + "'");
+                } else if (key.toString().equals("nazwisko")) {
+                    System.out.println("wchodze do nazwisko ");
+
+                    if ((i!=1)) {
+                        queryBuilder.append(",");
+                    }
+                    queryBuilder.append("'" + value +"'");
+
+                } else if (key.toString().equals("data")) {
+                    System.out.println("wchodze do data ");
+
+                    if ((i!=1)) {
+                        queryBuilder.append(",");
+                    }
+                    queryBuilder.append("TO_DATE('" + value + "','YYYY-MM-DD') ");
+
+                } else if (key.toString().equals("pesel")) {
+                    System.out.println("wchodze do pesel ");
+
+                    if ((i!=1)) {
+                        queryBuilder.append(",");
+                    }
+                    queryBuilder.append("'" + value+"'");
+
+                } else if (key.toString().equals("nrKonta")) {
+                    System.out.println("wchodze do nr konta ");
+
+                    if ((i!=1)) {
+                        queryBuilder.append(",");
+                    }
+                    queryBuilder.append("'" + value+"'");
+                }
+                else if (key.toString().equals("idKawiarnia")) {
+                    System.out.println("wchodze do id_kawiarnia ");
+
+                    if ((i != 1)) {
+                        queryBuilder.append(",");
+                    }
+                    queryBuilder.append( value );
+                }
+                else if (key.toString().equals("idLokal")) {
+                    System.out.println("wchodze do id_lokal ");
+
+                    if ((i != 1)) {
+                        queryBuilder.append(",");
+                    }
+                    queryBuilder.append( value );
+                }
+
+                System.out.println(pair.getKey() + " = " + pair.getValue());
+                  it.remove(); // avoids a ConcurrentModificationException
+           // }
 
 
+        }
+
+        queryBuilder.append(")");
+        String finalQuery = queryBuilder.toString();
+        System.out.println(finalQuery);
+
+        try (Connection connection = getDBConnection();
+             Statement stmt = connection.createStatement()
+        ) {
+
+            stmt.executeQuery(finalQuery );
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 }
