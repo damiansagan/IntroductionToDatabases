@@ -19,6 +19,7 @@ class AccountPanel extends JPanel {
     private JScrollPane historyScrollPane;
     private JPanel accountParameters;
     private JTextField imieField, nazwiskoField, emailField, telefonField;
+    private JPasswordField passwordField;
     private JButton applyButton;
     private KlientDTO currentAccount = Singleton.getLoggedInCustomer();
     private KlientService klientService = new KlientService();
@@ -26,6 +27,7 @@ class AccountPanel extends JPanel {
 
     AccountPanel() {
         setLayout(new BorderLayout());
+
 
         addComponentListener ( new ComponentAdapter()
         {
@@ -64,11 +66,12 @@ class AccountPanel extends JPanel {
     }
 
     private void checkoutCustomerData() {
-        currentAccount=klientService.getKlient(currentAccount.getId());
+        currentAccount=klientService.getKlient(currentAccount.getEmail(),currentAccount.getPassword());
         imieField.setText(currentAccount.getImie());
         nazwiskoField.setText(currentAccount.getNazwisko());
         emailField.setText(currentAccount.getEmail());
         telefonField.setText(currentAccount.getTelefonuNumer());
+        passwordField.setText(currentAccount.getPassword());
     }
 
     private void prepareAccountParametersPanel() {
@@ -78,16 +81,19 @@ class AccountPanel extends JPanel {
         JLabel nazwiskoLabel = new JLabel("Nazwisko:");
         JLabel emailLabel = new JLabel("Adres e-mail:");
         JLabel telefonLabel = new JLabel("Numer telefonu:");
+        JLabel passwordLabel = new JLabel("Hasło do konta:");
 
         imieField = new JTextField(60);
         nazwiskoField = new JTextField(60);
         emailField = new JTextField(60);
         telefonField = new JTextField(60);
+        passwordField = new JPasswordField(60);
 
         imieField.setMaximumSize( imieField.getPreferredSize() );
         nazwiskoField.setMaximumSize( nazwiskoField.getPreferredSize() );
         emailField.setMaximumSize( emailField.getPreferredSize() );
         telefonField.setMaximumSize( telefonField.getPreferredSize() );
+        passwordField.setMaximumSize( passwordField.getPreferredSize() );
 
         applyButton = new JButton("Zatwierdź zmiany");
 
@@ -100,6 +106,8 @@ class AccountPanel extends JPanel {
         accountParameters.add(emailField);
         accountParameters.add(telefonLabel);
         accountParameters.add(telefonField);
+        accountParameters.add(passwordLabel);
+        accountParameters.add(passwordField);
         accountParameters.add(Box.createRigidArea(new Dimension(0,10)));
         accountParameters.add(applyButton);
         accountParameters.add(Box.createRigidArea(new Dimension(0,10)));
@@ -120,6 +128,7 @@ class AccountPanel extends JPanel {
         nazwiskoField.addActionListener(actionListener);
         emailField.addActionListener(actionListener);
         telefonField.addActionListener(actionListener);
+        passwordField.addActionListener(actionListener);
         applyButton.addActionListener(actionListener);
     }
 
@@ -128,6 +137,7 @@ class AccountPanel extends JPanel {
         currentAccount.setNazwisko(nazwiskoField.getText());
         currentAccount.setEmail(emailField.getText());
         currentAccount.setTelefonuNumer(telefonField.getText());
+        currentAccount.setPassword(passwordField.getText());
         return klientService.updateKlient(currentAccount);
     }
 

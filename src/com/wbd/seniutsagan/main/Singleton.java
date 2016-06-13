@@ -12,7 +12,7 @@ public class Singleton {
 
     private Singleton() {
         klientService = new KlientService();
-        loggedInCustomer = klientService.getKlient(1); //FOR TESTS ONLY!!!
+        loggedInCustomer = klientService.getKlient("email@testowy.pl","test"); //FOR TESTS ONLY!!!
     }
 
     private static Singleton getInstance() {

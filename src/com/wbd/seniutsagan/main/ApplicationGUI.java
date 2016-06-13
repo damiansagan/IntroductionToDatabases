@@ -1,7 +1,5 @@
 package com.wbd.seniutsagan.main;
 
-import com.wbd.seniutsagan.customer.CustomerPanel;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,10 +7,12 @@ class ApplicationGUI {
     private JFrame frame;
     private static final int WINDOW_HEIGHT = 600;
     private static final int WINDOW_WIDTH = 1000;
+    private JPanel loginPanel, customerPanel, kierownikPanel;
 
     ApplicationGUI() {
         createFrame();
-        frame.getContentPane().add(new CustomerPanel());
+        loginPanel=new LoginPanel(frame);
+        frame.getContentPane().add(loginPanel);
         // show GUI
         frame.setVisible(true);
     }
@@ -20,7 +20,7 @@ class ApplicationGUI {
     private void createFrame() {
         // set up frame
         frame = new JFrame();
-        frame.setTitle("ApplicationGUI");
+        frame.setTitle("Restauracja Hakuna Matata");
         // it will center frame
         frame.setLocationRelativeTo(null);
         //frame.pack();

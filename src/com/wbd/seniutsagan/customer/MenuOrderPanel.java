@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 class MenuOrderPanel extends JPanel {
-
+    private JFrame parentFrame;
     private List<PozycjaMenuDTO> pozycjeMenu;
     private Map<String,List<PozycjaMenuDTO>> pozycjeMenuRodzajami;
     private JScrollPane scrollPane;
@@ -23,7 +23,7 @@ class MenuOrderPanel extends JPanel {
     private ZamowienieService zamowienieService = new ZamowienieService();
     private MenuService menuService = new MenuService();
 
-    MenuOrderPanel() {
+    MenuOrderPanel(){
         setLayout(new BorderLayout());
         new Thread(() -> recreateScrollPane()).start();
         JButton orderButton = new JButton("Złóż zamówienie");

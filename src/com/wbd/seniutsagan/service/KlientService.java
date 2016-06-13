@@ -5,14 +5,14 @@ import com.wbd.seniutsagan.dao.SQLKlientDAO;
 import com.wbd.seniutsagan.dto.KlientDTO;
 
 public class KlientService {
-    KlientDAO dao;
+    private KlientDAO dao;
 
     public KlientService() {
         this.dao = new SQLKlientDAO();
     }
 
-    public KlientDTO getKlient(int id){
-        return dao.getClient(id);
+    public KlientDTO getKlient(String email, String password){
+        return dao.getClient(email, password);
     }
 
     public boolean updateKlient(KlientDTO klientDTO){

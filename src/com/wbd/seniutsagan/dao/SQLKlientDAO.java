@@ -16,14 +16,16 @@ public class SQLKlientDAO implements KlientDAO {
     @Override
     public boolean updateClient(KlientDTO klientDTO) {
         try (Connection con = getDBConnection();
-             PreparedStatement statement = con.prepareStatement("update klienci SET imie=?, nazwisko=?, email_klient=?, nr_telefonu=?" +
+             PreparedStatement statement = con.prepareStatement("update klienci SET " +
+                     "imie=?, nazwisko=?, email_klient=?, nr_telefonu=?, password=?" +
                      "where id_klient=?"))
         {
             statement.setString(1,klientDTO.getImie());
             statement.setString(2,klientDTO.getNazwisko());
             statement.setString(3,klientDTO.getEmail());
             statement.setString(4,klientDTO.getTelefonuNumer());
-            statement.setInt(5,klientDTO.getId());
+            statement.setString(5,klientDTO.getPassword());
+            statement.setInt(6,klientDTO.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -33,18 +35,24 @@ public class SQLKlientDAO implements KlientDAO {
     }
 
     @Override
-    public KlientDTO getClient(int id) {
+    public KlientDTO getClient(String email, String password) {
         KlientDTO result = null;
         try ( Connection connection = getDBConnection();
-              Statement stmt = connection.createStatement()
+              PreparedStatement stmt = connection.prepareStatement("SELECT * from klienci " +
+                      "WHERE EMAIL_KLIENT=? and PASSWORD=?")
         ) {
-            ResultSet rs = stmt.executeQuery("SELECT * from klienci WHERE id_klient=" + id);
+            stmt.setString(1,email);
+            stmt.setString(2,password);
+            ResultSet rs = stmt.executeQuery();
             if (rs.next()){
                 result = new KlientDTO(rs.getInt("ID_KLIENT"));
                 result.setImie(rs.getString("IMIE"));
                 result.setNazwisko(rs.getString("NAZWISKO"));
-                result.setEmail(rs.getString("EMAIL_KLIENT"));
+                //result.setEmail(rs.getString("EMAIL_KLIENT"));
+                result.setEmail(email);
                 result.setTelefonuNumer(rs.getString("NR_TELEFONU"));
+                //result.setPassword(rs.getString("PASSWORD"));
+                result.setPassword(password);
             }
             rs.close();
         } catch (SQLException e) {

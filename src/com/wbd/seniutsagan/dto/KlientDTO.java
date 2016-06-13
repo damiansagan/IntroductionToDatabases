@@ -7,6 +7,7 @@ public class KlientDTO {
     private String nazwisko;
     private String email;
     private String telefonuNumer;
+    private String password;
 
     public KlientDTO(int id) {
         this.id = id;
@@ -50,5 +51,13 @@ public class KlientDTO {
 
     public void setTelefonuNumer(String telefonuNumer) {
         this.telefonuNumer = telefonuNumer;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

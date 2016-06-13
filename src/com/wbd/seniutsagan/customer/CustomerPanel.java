@@ -1,6 +1,9 @@
 package com.wbd.seniutsagan.customer;
 
 
+import com.wbd.seniutsagan.main.LoginPanel;
+import com.wbd.seniutsagan.main.Singleton;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,8 +12,10 @@ import java.awt.event.ActionListener;
 public class CustomerPanel extends JPanel implements ActionListener{
     private JPanel upperPanel, container;
     private String buttonNames[] = { "Menu/Zamowienie", "Rezerwacja", "Konto" };
+    private JFrame parentFrame;
 
-    public CustomerPanel() {
+    public CustomerPanel(JFrame parentFrame) {
+        this.parentFrame=parentFrame;
         createUpperPanel();
         createContainerPanel();
         setLayout(new BorderLayout());
@@ -25,19 +30,27 @@ public class CustomerPanel extends JPanel implements ActionListener{
         container.add(new AccountPanel(), buttonNames[2]);
     }
 
-    private void createUpperPanel() {
+    private void createUpperPanel(){
         JButton orderButton = new JButton(buttonNames[0]);
         //JButton reservationButton = new JButton(buttonNames[1]);
         JButton accountButton = new JButton(buttonNames[2]);
+        JButton logoutButton = new JButton("Wyloguj");
 
         orderButton.addActionListener(this);
         //reservationButton.addActionListener(this);
         accountButton.addActionListener(this);
+        logoutButton.addActionListener(e -> new Thread(() -> {
+            Singleton.setLoggedInCustomer(null);
+            parentFrame.getContentPane().remove(this);
+            parentFrame.getContentPane().add(new LoginPanel(parentFrame));
+            parentFrame.getContentPane().revalidate();
+        }).start());
 
         upperPanel = new JPanel();
         upperPanel.add(orderButton);
         //upperPanel.add(reservationButton);
         upperPanel.add(accountButton);
+        upperPanel.add(logoutButton);
     }
 
     @Override

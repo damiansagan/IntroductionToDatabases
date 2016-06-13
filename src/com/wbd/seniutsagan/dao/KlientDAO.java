@@ -6,6 +6,5 @@ import com.wbd.seniutsagan.dto.KlientDTO;
 public interface KlientDAO {
 
     boolean updateClient(KlientDTO klientDTO);
-    KlientDTO getClient(int id);
-
+    KlientDTO getClient(String email, String password);
 }
