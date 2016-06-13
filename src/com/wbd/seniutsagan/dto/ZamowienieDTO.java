@@ -8,6 +8,7 @@ public class ZamowienieDTO {
     private Integer id;
     private String status = "Przyjete";
     private Map<PozycjaMenuDTO,Integer> pozycjeMenu = new HashMap<>();
+    private String pozycjeMenuAggregated;
     private Integer idKlienta;
     private Integer idRezerwacji;
     private Integer idPracownika;
@@ -32,9 +33,22 @@ public class ZamowienieDTO {
 
     @Override
     public String toString() {
-        return "ZamowienieDTO{" +
-                "pozycjeMenu=" + pozycjeMenu +
-                '}';
+        if(pozycjeMenuAggregated==null)
+            return "ZamowienieDTO{" +
+                    "pozycjeMenu=" + pozycjeMenu +
+                    '}';
+        else
+            return "ZamowienieDTO{" +
+                    "pozycjeMenu={" + pozycjeMenuAggregated +
+                    "}}";
+    }
+
+    public String getPozycjeMenuAggregated() {
+        return pozycjeMenuAggregated;
+    }
+
+    public void setPozycjeMenuAggregated(String pozycjeMenuAggregated) {
+        this.pozycjeMenuAggregated = pozycjeMenuAggregated;
     }
 
     public void setIdPracownika(Integer idPracownika) {

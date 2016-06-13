@@ -3,6 +3,8 @@ package com.wbd.seniutsagan.customer;
 import com.wbd.seniutsagan.dto.PozycjaMenuDTO;
 import com.wbd.seniutsagan.dto.ZamowienieDTO;
 import com.wbd.seniutsagan.main.Singleton;
+import com.wbd.seniutsagan.service.MenuService;
+import com.wbd.seniutsagan.service.ZamowienieService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +20,8 @@ class MenuOrderPanel extends JPanel {
     private JScrollPane scrollPane;
     private JPanel scrollPanel;
     private ZamowienieDTO zamowienieDTO = new ZamowienieDTO(Singleton.getLoggedInCustomer());
+    private ZamowienieService zamowienieService = new ZamowienieService();
+    private MenuService menuService = new MenuService();
 
     MenuOrderPanel() {
         setLayout(new BorderLayout());
@@ -53,7 +57,7 @@ class MenuOrderPanel extends JPanel {
                     JOptionPane.WARNING_MESSAGE);
             return;
         }
-        if(Singleton.getZamowienieService().order(zamowienieDTO)){
+        if(zamowienieService.order(zamowienieDTO)){
             zamowienieDTO=new ZamowienieDTO(Singleton.getLoggedInCustomer());
             JOptionPane.showMessageDialog(null, "Zamówienie zostało złożone.", "Dziękujemy!",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -80,7 +84,7 @@ class MenuOrderPanel extends JPanel {
     }
 
     private void preparePozycjeMenuRodzajami() {
-        pozycjeMenu = Singleton.updateMenu();
+        pozycjeMenu = menuService.getPozycjeMenu();
         //pozycjeMenuRodzajami = pozycjeMenu.stream().collect(Collectors.groupingBy(PozycjaMenuDTO::getRodzajOferty));
         pozycjeMenuRodzajami = new LinkedHashMap<>();
         pozycjeMenu.forEach(p -> {

@@ -1,9 +1,11 @@
 package com.wbd.seniutsagan.dao;
 
 
+import com.wbd.seniutsagan.dto.KlientDTO;
+
 public interface KlientDAO {
 
-    boolean updateClient(KlientDAO klientDAO);
-    KlientDAO getClient();
+    boolean updateClient(KlientDTO klientDTO);
+    KlientDTO getClient(int id);
 
 }

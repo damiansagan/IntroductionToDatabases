@@ -1,10 +1,13 @@
 package com.wbd.seniutsagan.dao;
 
 
+import com.wbd.seniutsagan.dto.KlientDTO;
 import com.wbd.seniutsagan.dto.PozycjaMenuDTO;
 import com.wbd.seniutsagan.dto.ZamowienieDTO;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class SQLZamowienieDAO implements ZamowienieDAO{
@@ -62,5 +65,37 @@ public class SQLZamowienieDAO implements ZamowienieDAO{
             return false;
         }
         return true;
+    }
+
+
+    public List<ZamowienieDTO> getAll(KlientDTO klientDTO){
+        List<ZamowienieDTO> result;
+        try ( Connection connection = getDBConnection();
+              Statement stmt = connection.createStatement()
+        ) {
+            ResultSet rs = stmt.executeQuery("SELECT id_zamowienie, status, pozycje_zamowienia FROM zamowienia " +
+                    " JOIN (SELECT" +
+                    "        id_zamowienie," +
+                    "        LISTAGG(pozycja, ', ') WITHIN GROUP (ORDER BY pozycja) AS pozycje_zamowienia" +
+                    "      FROM" +
+                    "        (SELECT id_zamowienie, ''||ilosc||'x '||nazwa||'' AS pozycja" +
+                    "         FROM pozycje_zamowien JOIN pozycje_menu USING (id_pozycja_menu))" +
+                    "      GROUP BY id_zamowienie) USING (id_zamowienie)" +
+                    " WHERE id_klient=" + klientDTO.getId() +
+                    " ORDER BY id_zamowienie DESC ");
+            result = new ArrayList<>();
+            while (rs.next()) {
+                ZamowienieDTO current = new ZamowienieDTO(klientDTO);
+                current.setId(rs.getInt("ID_ZAMOWIENIE"));
+                current.setStatus(rs.getString("STATUS"));
+                current.setPozycjeMenuAggregated(rs.getString("POZYCJE_ZAMOWIENIA"));
+                result.add(current);
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return result;
     }
 }

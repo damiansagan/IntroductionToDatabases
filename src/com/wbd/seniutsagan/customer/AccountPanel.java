@@ -1,46 +1,79 @@
 package com.wbd.seniutsagan.customer;
 
-import com.wbd.seniutsagan.dao.SQLKlientDAO;
 import com.wbd.seniutsagan.dto.KlientDTO;
+import com.wbd.seniutsagan.dto.ZamowienieDTO;
 import com.wbd.seniutsagan.main.Singleton;
 import com.wbd.seniutsagan.service.KlientService;
+import com.wbd.seniutsagan.service.ZamowienieService;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseEvent;
+import java.util.List;
 
 class AccountPanel extends JPanel {
 
-    private JScrollPane scrollPane;
-    private JPanel scrollPanel;
-
+    private JScrollPane historyScrollPane;
     private JPanel accountParameters;
-    private JPanel orderHistory;
     private JTextField imieField, nazwiskoField, emailField, telefonField;
     private JButton applyButton;
     private KlientDTO currentAccount = Singleton.getLoggedInCustomer();
-    private KlientService klientService = new KlientService(new SQLKlientDAO());
-    private boolean hasBeenChanged = false;
+    private KlientService klientService = new KlientService();
+    private ZamowienieService zamowienieService = new ZamowienieService();
 
     AccountPanel() {
         setLayout(new BorderLayout());
-        prepareAccountParameters();
-        prepareOrderHistory();
-        scrollPanel=new JPanel();
-        scrollPanel.setLayout(new BoxLayout(scrollPanel,BoxLayout.PAGE_AXIS));
-        scrollPanel.add(accountParameters);
-        scrollPanel.add(orderHistory);
-        scrollPane = new JScrollPane(scrollPanel);
-        add(scrollPane,BorderLayout.CENTER);
+
+        addComponentListener ( new ComponentAdapter()
+        {
+            public void componentShown ( ComponentEvent e )
+            {
+                new Thread(() -> updateContent()).start();
+            }
+
+            public void componentHidden ( ComponentEvent e )
+            {}
+        } );
     }
 
-    private void prepareAccountParameters() {
+    private void updateContent() {
+        if(accountParameters!=null) remove(accountParameters);
+        if(historyScrollPane!=null) remove(historyScrollPane);
+        JLabel loadingLabel = new JLabel("Trwa aktualizowanie danych, proszę czekać...");
+        loadingLabel.setHorizontalAlignment(JLabel.CENTER);
+        add(loadingLabel, BorderLayout.CENTER);
+        revalidate();
+        prepareAccountParametersPanel();
+        Thread t1 = new Thread(() -> checkoutCustomerData());
+        Thread t2 = new Thread(() -> prepareHistoryScrollPane());
+        t1.start();
+        t2.start();
+        try {
+            t1.join();
+            t2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        remove(loadingLabel);
+        add(accountParameters, BorderLayout.PAGE_START);
+        add(historyScrollPane, BorderLayout.CENTER);
+        revalidate();
+    }
+
+    private void checkoutCustomerData() {
+        currentAccount=klientService.getKlient(currentAccount.getId());
+        imieField.setText(currentAccount.getImie());
+        nazwiskoField.setText(currentAccount.getNazwisko());
+        emailField.setText(currentAccount.getEmail());
+        telefonField.setText(currentAccount.getTelefonuNumer());
+    }
+
+    private void prepareAccountParametersPanel() {
         accountParameters = new JPanel();
         accountParameters.setLayout(new BoxLayout(accountParameters,BoxLayout.PAGE_AXIS));
-        accountParameters.setBorder(BorderFactory.createEmptyBorder(5, 50, 5, 50));
-
         JLabel imieLabel = new JLabel("Imie:");
         JLabel nazwiskoLabel = new JLabel("Nazwisko:");
         JLabel emailLabel = new JLabel("Adres e-mail:");
@@ -58,7 +91,7 @@ class AccountPanel extends JPanel {
 
         applyButton = new JButton("Zatwierdź zmiany");
 
-        accountParameters.add(prepareTitleLabel("Dane użytkowika"));
+        accountParameters.add(prepareTitleLabel("Dane użytkowika:"));
         accountParameters.add(imieLabel);
         accountParameters.add(imieField);
         accountParameters.add(nazwiskoLabel);
@@ -70,35 +103,18 @@ class AccountPanel extends JPanel {
         accountParameters.add(Box.createRigidArea(new Dimension(0,10)));
         accountParameters.add(applyButton);
         accountParameters.add(Box.createRigidArea(new Dimension(0,10)));
-        accountParameters.add(prepareTitleLabel("Historia zamówień"));
-
-        addListeners();
+        accountParameters.add(prepareTitleLabel("Historia zamówień:"));
+        //accountParameters.setBackground(Color.cyan);
+        //accountParameters.setMaximumSize(new Dimension(200,accountParameters.getPreferredSize().height));
+        accountParameters.setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 50));
+        addListenersForDataPushing();
     }
 
-    private void addListeners() {
-        DocumentListener documentListener = new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                hasBeenChanged=true;
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                hasBeenChanged=true;
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                hasBeenChanged=true;
-            }
-        };
-
-        ActionListener actionListener = e -> System.out.println(hasBeenChanged);
-
-        imieField.getDocument().addDocumentListener(documentListener);
-        nazwiskoField.getDocument().addDocumentListener(documentListener);
-        emailField.getDocument().addDocumentListener(documentListener);
-        telefonField.getDocument().addDocumentListener(documentListener);
+    private void addListenersForDataPushing() {
+        ActionListener actionListener = e ->
+            new Thread(() -> {
+                showDialog(updateRemoteAccount());
+            }).start();
 
         imieField.addActionListener(actionListener);
         nazwiskoField.addActionListener(actionListener);
@@ -107,15 +123,58 @@ class AccountPanel extends JPanel {
         applyButton.addActionListener(actionListener);
     }
 
+    private boolean updateRemoteAccount() {
+        currentAccount.setImie(imieField.getText());
+        currentAccount.setNazwisko(nazwiskoField.getText());
+        currentAccount.setEmail(emailField.getText());
+        currentAccount.setTelefonuNumer(telefonField.getText());
+        return klientService.updateKlient(currentAccount);
+    }
+
     private Component prepareTitleLabel(String title) {
         JLabel label = new JLabel(title);
         label.setFont(new Font("Arial", Font.PLAIN, 19));
         label.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-        //label.setAlignmentX(Component.CENTER_ALIGNMENT);
         return label;
     }
 
-    private void prepareOrderHistory() {
-        orderHistory = new JPanel();
+    private void showDialog(boolean status){
+        if(!status){
+            JOptionPane.showMessageDialog(null, "Błąd. Zmiany nie zostały zapisane. \nSprawdź swoje połączenie internetowe " +
+                    "lub użyj innego zestawu danych. \nMaksymalne ilości znaków dla Imie/Nazwisko/E-mail/Telefon wynoszą odpowiednio "+
+                    "20/30/30/9.", "UWAGA!",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        else
+            JOptionPane.showMessageDialog(null, "Zmiany zostały zaktualizowane.", "Sukces!",
+                    JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void prepareHistoryScrollPane() {
+        List<ZamowienieDTO> zamowienieDTOList = zamowienieService.getAll(Singleton.getLoggedInCustomer());
+        final String[] columnNames = { "Nr", "Status", "Pozycje zamówienia" };
+        Object[][] data = new Object[zamowienieDTOList.size()][columnNames.length];
+        for (int i = 0; i < zamowienieDTOList.size(); i++) {
+            ZamowienieDTO zam = zamowienieDTOList.get(i);
+            data[i][0] = zam.getId();
+            data[i][1] = zam.getStatus();
+            data[i][2] = zam.getPozycjeMenuAggregated();
+        }
+
+        JTable historyTable = new JTable(data, columnNames) {
+            public String getToolTipText(MouseEvent e) {
+                int row = rowAtPoint(e.getPoint());
+                int column = columnAtPoint(e.getPoint());
+
+                Object value = getValueAt(row, column);
+                return value == null ? null : value.toString();
+            }
+        };
+        historyTable.setPreferredScrollableViewportSize(historyTable.getPreferredSize());
+        historyTable.getColumnModel().getColumn(0).setMaxWidth(40);
+        historyTable.getColumnModel().getColumn(0).setMinWidth(40);
+        historyTable.getColumnModel().getColumn(1).setMinWidth(100);
+        historyTable.getColumnModel().getColumn(1).setMaxWidth(100);
+        historyScrollPane = new JScrollPane(historyTable);
     }
 }
