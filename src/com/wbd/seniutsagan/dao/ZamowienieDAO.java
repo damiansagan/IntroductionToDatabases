@@ -1,6 +1,8 @@
 package com.wbd.seniutsagan.dao;
 
+import com.wbd.seniutsagan.dto.ZamowienieDTO;
+
 public interface ZamowienieDAO {
 
-    void pushOrder(ZamowienieDAO zamowienieDAO);
+    boolean pushOrder(ZamowienieDTO zamowienieDTO);
 }

@@ -17,13 +17,21 @@ class MenuOrderPanel extends JPanel {
     private Map<String,List<PozycjaMenuDTO>> pozycjeMenuRodzajami;
     private JScrollPane scrollPane;
     private JPanel scrollPanel;
-    private ZamowienieDTO zamowienieDTO = new ZamowienieDTO();
+    private ZamowienieDTO zamowienieDTO = new ZamowienieDTO(Singleton.getLoggedInCustomerID());
 
     MenuOrderPanel() {
         setLayout(new BorderLayout());
-        preparePozycjeMenu();
+        preparePozycjeMenuRodzajami();
         createScrollPane();
         add(scrollPane, BorderLayout.CENTER);
+        JButton orderButton = new JButton("Zarezerwuj");
+        orderButton.addActionListener(e -> processOrder());
+        JButton resetButton = new JButton("Wyczyść");
+        resetButton.addActionListener(e -> recreateScrollPane());
+        JPanel orderPanel = new JPanel();
+        orderPanel.add(resetButton);
+        orderPanel.add(orderButton);
+        add(orderPanel, BorderLayout.PAGE_END);
     }
 
     private void createScrollPane() {
@@ -37,18 +45,25 @@ class MenuOrderPanel extends JPanel {
             scrollPanel.add(label);
             v.forEach(p -> scrollPanel.add(new PozycjaMenuPanel(p,zamowienieDTO)));
         });
-        JButton orderButton = new JButton("Zarezerwuj");
-        orderButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         scrollPanel.add(Box.createRigidArea(new Dimension(0,10)));
-        scrollPanel.add(orderButton);
         scrollPane = new JScrollPane(scrollPanel);
-        orderButton.addActionListener(e -> {
-            Singleton.getZamowienieService().order(zamowienieDTO);
-            zamowienieDTO=new ZamowienieDTO();
+    }
+
+    private void processOrder() {
+        if(zamowienieDTO.getPozycjeMenu().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Niestety, zamówienie jest puste i nie zostało złożone.", "Na pewno?",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if(Singleton.getZamowienieService().order(zamowienieDTO)){
+            zamowienieDTO=new ZamowienieDTO(Singleton.getLoggedInCustomerID());
             recreateScrollPane();
             JOptionPane.showMessageDialog(null, "Zamówienie zostało złożone.", "Dziękujemy!",
                     JOptionPane.INFORMATION_MESSAGE);
-        });
+        }
+        else
+            JOptionPane.showMessageDialog(null, "Błąd. Zamówienie nie zostało złożone.", "UWAGA!",
+                    JOptionPane.ERROR_MESSAGE);
     }
 
     private void recreateScrollPane() {
@@ -58,7 +73,7 @@ class MenuOrderPanel extends JPanel {
         revalidate();
     }
 
-    private void preparePozycjeMenu() {
+    private void preparePozycjeMenuRodzajami() {
         pozycjeMenu = Singleton.updateMenu();
         //pozycjeMenuRodzajami = pozycjeMenu.stream().collect(Collectors.groupingBy(PozycjaMenuDTO::getRodzajOferty));
         pozycjeMenuRodzajami = new LinkedHashMap<>();

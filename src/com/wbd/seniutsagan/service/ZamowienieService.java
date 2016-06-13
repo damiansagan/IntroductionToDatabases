@@ -10,7 +10,7 @@ public class ZamowienieService {
         this.dao = dao;
     }
 
-    public void order(ZamowienieDTO zamowienieDTO){
-
+    public boolean order(ZamowienieDTO zamowienieDTO) {
+        return !zamowienieDTO.getPozycjeMenu().isEmpty() && dao.pushOrder(zamowienieDTO);
     }
 }

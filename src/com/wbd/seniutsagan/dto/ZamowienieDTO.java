@@ -12,6 +12,10 @@ public class ZamowienieDTO {
     private Integer idRezerwacji;
     private Integer idPracownika;
 
+    public ZamowienieDTO(Integer idKlienta) {
+        this.idKlienta = idKlienta;
+    }
+
     public void addPozycjaMenu(PozycjaMenuDTO pozycjaMenu) {
         Integer current = pozycjeMenu.putIfAbsent(pozycjaMenu,1);
         if(current!=null)
